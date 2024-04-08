@@ -5,7 +5,7 @@ data <- haven::read_sav("_SharedFolder_article_religion-magie/Data/quorum_2/QUOR
 codebook <- sondr::sav_to_codebook(data)
 sondr::codebook_to_catalog(codebook, "codebook_quorum2.md", "Quorum 2")
 
-# En regardant la liste suivante de recommandations de la santÃ© publique, quelle(s) recommandation(s) respectez-vous sans faute?Vous pouvez choisir plus dâ€™une rÃ©ponse. 1 = Respecter les mesures de distanciation physique en lien avec le COVID-19à
+# En regardant la liste suivante de recommandations de la santÃ© publique, quelle(s) recommandation(s) respectez-vous sans faute?Vous pouvez choisir plus dâ€™une rÃ©ponse. 1 = Respecter les mesures de distanciation physique en lien avec le COVID-19
 
 data$N1AC1
 
@@ -48,7 +48,7 @@ data$Q17_7
 data$Q17_N10
 data$Q17_N10_inv <- sondr::finverser(data$Q17_N10)
 
-# Ãtes-vous en accord ou en dÃ©saccord avec les Ã©noncÃ©s suivants : - Au final, seuls les plus forts survivront Ã  la COVID-19.
+# Ãtes-vous en accord ou en dÃ©saccord avec les Ã©noncÃ©s suivants : - Au final, seuls les plus forts survivront Ã la COVID-19.
 
 data$Q17_N11
 
@@ -76,10 +76,18 @@ data$Q30_inv <- sondr::finverser(data$Q30)
 
 data$Q37_1
 
-
-data_facanal <- data  %>% 
+data_facanal_full <- data  %>% 
     select(Q100, N2, Q2B_N8, Q17_3_inv, Q17_N6, Q17_N2, Q17_N3_inv, Q17_N4, Q17_N7, Q17_7, Q17_N10_inv, Q17_N11, Q17_N12_inv, Q23, Q29_inv, Q30_inv, Q37_1) %>% 
     na.omit()
 
+sondr::topdown_fa(data_facanal_full)
+
+data_facanal <- data  %>% 
+    select(Q17_3, Q17_N6, Q17_N2, Q17_N3, Q17_N4, Q17_N7, Q23, Q37_1) %>% 
+    na.omit()
 
 sondr::topdown_fa(data_facanal)
+
+covid_scale <- sondr::sav_to_codebook(data_facanal)
+
+sondr::codebook_to_catalog(covid_scale, "_SharedFolder_article_religion-magie/Data/covid_scale.md", "Covid scale")
