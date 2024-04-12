@@ -1,9 +1,9 @@
 library(dplyr)
 
-data <- haven::read_sav("_SharedFolder_article_religion-magie/Data/quorum_2/QUORUM2.Sav", encoding = "latin1")
+data <- haven::read_sav("_SharedFolder_article_religion-magie/Data/quorum_3/ULA003.Sav", encoding = "latin1")
 
 codebook <- sondr::sav_to_codebook(data)
-sondr::codebook_to_catalog(codebook, "codebook_quorum2.md", "Quorum 2")
+sondr::codebook_to_catalog(codebook, "_SharedFolder_article_religion-magie/Data/quorum_3/codebook_qrm_3.md", "Quorum 3")
 
 # En regardant la liste suivante de recommandations de la santÃ© publique, quelle(s) recommandation(s) respectez-vous sans faute?Vous pouvez choisir plus dâ€™une rÃ©ponse. 1 = Respecter les mesures de distanciation physique en lien avec le COVID-19
 
@@ -23,21 +23,26 @@ data$Q2B_N8
 
 # Ãtes-vous en accord ou en dÃ©saccord avec les Ã©noncÃ©s suivants : - Je n'ai pas particuliÃ¨rement peur de mourir de la COVID-19.
 
-data$Q17_3
+attributes(data$Q17_3)$label
 data$Q17_3_inv <- sondr::finverser(data$Q17_3)
 
 # Ãtes-vous en accord ou en dÃ©saccord avec les Ã©noncÃ©s suivants : - La COVID-19 menace la survie de l'humanitÃ©.
 
-data$Q17_N6
+attributes(data$Q17_N6)$label
 
-data$Q17_N2
-data$Q17_N3
+attributes(data$Q17_N2)$label
+
+
+attributes(data$Q17_N3)$label
 data$Q17_N3_inv <- sondr::finverser(data$Q17_N3)
-data$Q17_N4
+
+attributes(data$Q17_N4)$label
 
 # Ãtes-vous en accord ou en dÃ©saccord avec les Ã©noncÃ©s suivants : - La vie ne sera plus jamais pareille aprÃ¨s la pandÃ©mie de la COVID-19.
 
 data$Q17_N7
+
+attributes(data$Q17_N7)$label
 
 # Ãtes-vous en accord ou en dÃ©saccord avec les Ã©noncÃ©s suivants : - La pandÃ©mie de la COVID-19 est une revanche de la nature sur l'humanitÃ©.
 
@@ -83,10 +88,14 @@ data_facanal_full <- data  %>%
 sondr::topdown_fa(data_facanal_full)
 
 data_facanal <- data  %>% 
-    select(Q17_3, Q17_N6, Q17_N2, Q17_N3, Q17_N4, Q17_N7, Q23, Q37_1) %>% 
+    select(Q17_3_inv, Q17_N6, Q17_N2, Q17_N3_inv, Q17_N4, Q17_N7, Q23, Q37_1) %>% 
     na.omit()
 
-sondr::topdown_fa(data_facanal)
+data_facanal_3q <- data  %>% 
+    select(Q17_3_inv, Q17_N6, Q23, Q17_N7) %>% 
+    na.omit()
+
+sondr::topdown_fa(data_facanal_3q)
 
 covid_scale <- sondr::sav_to_codebook(data_facanal)
 
