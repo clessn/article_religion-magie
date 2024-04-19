@@ -1,6 +1,6 @@
 library(dplyr)
 
-data <- haven::read_sav("_SharedFolder_article_religion-magie/Data/quorum_2/QUORUM2.Sav", encoding = "latin1")
+data <- haven::read_sav("_SharedFolder_article_religion-magie/Data/quorum_3/ULA003.Sav", encoding = "latin1")
 
 codebook <- sondr::sav_to_codebook(data)
 sondr::codebook_to_catalog(codebook, "codebook_quorum2.md", "Quorum 2")
