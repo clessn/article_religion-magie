@@ -1,7 +1,7 @@
 
 library(dplyr)
 
-data <- haven::read_sav("/Users/camillepelletier/Dropbox/article_religion-magie/_SharedFolder_article_religion-magie/Data/quorum_1/ULAQUORUM.Sav", encoding = "latin1")
+data <- haven::read_sav("_SharedFolder_article_religion-magie/Data/quorum_1/ULAQUORUM.Sav", encoding = "latin1")
 
 codebook <- sondr::sav_to_codebook(data)
 
