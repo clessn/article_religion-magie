@@ -221,6 +221,14 @@ data_clean$ses_occupation[data_raw$Q39 == 5] <- "unemployed"
 data_clean$ses_occupation[data_raw$Q39 == 6] <- "unemployed"
 table(data_clean$ses_occupation)
 
+# covid 
+
+data_clean$during_covid <- 0
+
+# survey 
+
+data_clean$survey_name <- "sondage_2014"
+
 ## Save ------------------------------------------------------------------------
 
 saveRDS(data_clean, "_SharedFolder_article_religion-magie/Data/data_clean/data_2014.RDS")
