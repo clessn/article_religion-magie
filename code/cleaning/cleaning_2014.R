@@ -9,7 +9,7 @@ data_raw <- data %>%
 
 data_clean <- data.frame(id = 1:nrow(data_raw))
 
-## PROV ------------------------------------------------------------------------
+## PROV ---------------------------- province ----------------------------------
 
 attributes(data_raw$PROV)
 table(data_raw$PROV)
@@ -29,7 +29,7 @@ data_clean$ses_province[data_raw$PROV == 12] <- "sk"
 data_clean$ses_province[data_raw$PROV == 13] <- "yt"
 table(data_clean$ses_province)
 
-## CP --------------------------------------------------------------------------
+## CP ------------------------- postal code ------------------------------------
 
 attributes(data_raw$REG_ADM)
 table(data_raw$REG_ADM)
@@ -37,7 +37,7 @@ data_clean$ses_postal_code <- NA
 data_clean$ses_postal_code <- data_raw$REG_ADM
 table(data_clean$ses_postal_code)
 
-## SEXE ------------------------------------------------------------------------
+## SEXE ---------------------------- sexe --------------------------------------
 
 attributes(data_raw$SEXE)
 table(data_raw$SEXE)
@@ -46,7 +46,7 @@ data_clean$ses_female[data_raw$SEXE == 2] <- 1
 data_clean$ses_female[data_raw$SEXE != 2] <- 0
 table(data_clean$ses_female)
 
-## YOB -------------------------------------------------------------------------
+## YOB ------------------------------- yob -------------------------------------
 
 attributes(data_raw$YOB)
 table(data_raw$YOB)
@@ -57,7 +57,7 @@ data_raw$yob_label <- factor(data_raw$yob_label)
 data_clean$ses_age <- as.numeric(data_raw$yob_label)
 table(data_clean$ses_age)
 
-## Age group
+## Age group ------------------------ Age group --------------------------------
 
 data_clean$ses_age_group <- NA
 data_clean$ses_age_group[data_raw$YOB > 2006] <- "under_18"
@@ -83,7 +83,7 @@ data_clean$ses_age_group <- factor(data_clean$ses_age_group, levels = c("under_1
 table(data_clean$ses_age_group)
 
 
-## LANGU -----------------------------------------------------------------------
+## LANGU ---------------------------- Language ---------------------------------
 
 attributes(data_raw$LANGU)
 table(data_raw$LANGU)
@@ -93,22 +93,14 @@ data_clean$ses_language[data_raw$LANGU == 2] <- "en"
 data_clean$ses_language[data_raw$LANGU == 3] <- "other"
 table(data_clean$ses_language)
 
+## Q23 ------------------------ how many immigrants ----------------------------
 
-## Q2_5 ------------------------------------------------------------------------
+clean_immigrants <- sondr::load_variable("_SharedFolder_article_religion-magie/Data/data_clean/data_quorum_1.rds", "how_many_immigrants")
+sondr::find_quantile_range(0.5, clean_immigrants)
+sondr::find_quantile_range(300000, data_raw$Q23)
+sondr::find_quantile_range(0.25, clean_immigrants)
 
-attributes(data_raw$Q2_5)
-table(data_raw$Q2_5)
-data_clean$horoscope <- NA
-data_clean$horoscope[data_raw$Q2_5 == 1] <- 0
-data_clean$horoscope[data_raw$Q2_5 == 2] <- 0.25
-data_clean$horoscope[data_raw$Q2_5 == 3] <- 0.5
-data_clean$horoscope[data_raw$Q2_5 == 4] <- 0.75
-data_clean$horoscope[data_raw$Q2_5 == 5] <- 1
-table(data_clean$horoscope)
 
-## Q23 -------------------------------------------------------------------------
-
-clean_immigrants <- readRDS("_SharedFolder_article_religion-magie/Data/data_clean/data_quorum_1.rds")$how_many_immigrants
 
 quantile(data_raw$Q23, prob = c(0.25, 0.45, 0.5, 0.75, 0.85, 0.9))
 
@@ -124,7 +116,7 @@ data_raw$immigrants_likert <- cut(data_raw$Q23, breaks = thresholds, labels = la
 data_clean$how_many_immigrants <- (as.numeric(data_raw$immigrants_likert) -1) / 4
 table(data_clean$how_many_immigrants)
 
-## Q28 -------------------------------------------------------------------------
+## Q28 ---------------------- member of church ---------------------------------
 
 attributes(data_raw$Q28)
 table(data_raw$Q28)
@@ -139,7 +131,7 @@ data_clean$religion_member_of_church[data_raw$Q28 == 7] <- 1
 data_clean$religion_member_of_church[data_raw$Q28 == 8] <- 1
 table(data_clean$religion_member_of_church)
 
-## Q29 -------------------------------------------------------------------------
+## Q29 ----------------------- attachment to church ----------------------------
 
 attributes(data_raw$Q29)
 table(data_raw$Q29)
@@ -147,7 +139,7 @@ data_clean$religion_attached_to_church <- NA
 data_clean$religion_attached_to_church <- (data_raw$Q29 - 1) / 4
 table(data_clean$religion_attached_to_church)
 
-## Q32 -------------------------------------------------------------------------
+## Q32 ------------------------ sexual orientation -----------------------------
 
 attributes(data_raw$Q32)
 table(data_raw$Q32)
@@ -158,7 +150,7 @@ data_clean$ses_sexual_orientation[data_raw$Q32 == 3] <- "bisexual"
 data_clean$ses_sexual_orientation[data_raw$Q32 == 4] <- "other"
 table(data_clean$ses_sexual_orientation)
 
-## Q33 -------------------------------------------------------------------------
+## Q33 ------------------------ marital status ---------------------------------
 
 attributes(data_raw$Q33)
 table(data_raw$Q33)
@@ -174,7 +166,7 @@ data_clean$ses_marital_status[data_raw$Q33 == 8] <- "dk"
 data_clean$ses_marital_status <- factor(data_clean$ses_marital_status, levels = c("married", "living_with_partner", "single", "divorced", "separated", "widowed", "never_married", "dk"))
 table(data_clean$ses_marital_status)
 
-## Q34 -------------------------------------------------------------------------
+## Q34 ----------------------- ethnicity ---------------------------------------
 
 attributes(data_raw$Q34)
 table(data_raw$Q34)
@@ -187,7 +179,7 @@ data_clean$ses_ethnicity[data_raw$Q34 == 5] <- "hispanic"
 data_clean$ses_ethnicity[data_raw$Q34 == 6] <- "arab"
 table(data_clean$ethnicity)
 
-## Q48 -------------------------------------------------------------------------
+## Q48 -------------------- born in canada -------------------------------------
 
 attributes(data_raw$Q48)
 table(data_raw$Q48)
@@ -196,7 +188,7 @@ data_clean$ses_born_canada[data_raw$Q48 == 1] <- 1
 data_clean$ses_born_canada[data_raw$Q48 != 1] <- 0
 table(data_clean$ses_born_canada)
 
-## Q36 -------------------------------------------------------------------------
+## Q36 ------------------------ education --------------------------------------
 
 attributes(data_raw$Q36)
 table(data_raw$Q36)
@@ -215,7 +207,7 @@ data_clean$ses_education[data_raw$Q36 == 11] <- "graduate"
 data_clean$ses_education <- factor(data_clean$ses_education, levels = c("before_high_school", "high_school", "cegep_college", "undergraduate", "graduate"))
 table(data_clean$ses_education)
 
-## Q39 -------------------------------------------------------------------------
+## Q39 ---------------------------- occupation ---------------------------------
 
 attributes(data_raw$Q39)
 table(data_raw$Q39)
@@ -228,14 +220,14 @@ data_clean$ses_occupation[data_raw$Q39 == 5] <- "unemployed"
 data_clean$ses_occupation[data_raw$Q39 == 6] <- "unemployed"
 table(data_clean$ses_occupation)
 
-# covid 
+# covid ----------------------------- covid ------------------------------------
 
 data_clean$during_covid <- 0
 
-# survey 
+# survey ----------------- which survey ----------------------------------------
 
 data_clean$survey_name <- "sondage_2014"
 
 ## Save ------------------------------------------------------------------------
 
-saveRDS(data_clean, "_SharedFolder_article_religion-magie/Data/data_clean/data_2014.RDS")
+saveRDS(data_clean, "_SharedFolder_article_religion-magie/Data/data_clean/data_2014.rds")

@@ -9,7 +9,7 @@ data_raw <- data %>%
 
 data_clean <- data.frame(id = 1:nrow(data_raw))
 
-# PROV
+## PROV ---------------------------- province ----------------------------------
 
 attributes(data_raw$PROV)
 table(data_raw$PROV)
@@ -30,7 +30,7 @@ data_clean$ses_province[data_raw$PROV == 13] <- "yt"
 table(data_clean$ses_province)
 sum(table(data_clean$ses_province))
 
-# REG_ADM
+## CP ------------------------- postal code ------------------------------------
 
 attributes(data_raw$REG_ADM)
 table(data_raw$REG_ADM)
@@ -39,7 +39,7 @@ data_clean$ses_postal_code <- data_raw$REG_ADM
 table(data_clean$ses_postal_code)
 sum(table(data_clean$ses_postal_code))
 
-# SEXE
+## SEXE ---------------------------- sexe --------------------------------------
 
 attributes(data_raw$SEXE)
 table(data_raw$SEXE)
@@ -49,7 +49,7 @@ data_clean$ses_female[data_raw$SEXE != 2] <- 0
 table(data_clean$ses_female)
 sum(table(data_clean$ses_female))
 
-# YOB
+## YOB ------------------------------- yob -------------------------------------
 
 attributes(data_raw$YOB)
 table(data_raw$YOB)
@@ -61,7 +61,7 @@ data_clean$ses_age <- as.numeric(data_raw$yob_label)
 table(data_clean$ses_age)
 sum(table(data_clean$ses_age))
 
-## Age group
+## Age group ------------------------ Age group --------------------------------
 
 data_clean$ses_age_group <- NA
 data_clean$ses_age_group[data_raw$YOB > 2006] <- "under_18"
@@ -87,7 +87,7 @@ data_clean$ses_age_group <- factor(data_clean$ses_age_group, levels = c("under_1
 table(data_clean$ses_age_group)
 sum(table(data_clean$ses_age_group))
 
-# LANGU
+## LANGU ---------------------------- Language ---------------------------------
 
 attributes(data_raw$LANGU)
 table(data_raw$LANGU)
@@ -97,6 +97,8 @@ data_clean$ses_language[data_raw$LANGU == 2] <- "en"
 data_clean$ses_language[data_raw$LANGU == 3] <- "other"
 table(data_clean$ses_language)
 sum(table(data_clean$ses_language))
+
+## ---------------------------- marital status ---------------------------------
 
 # Q47
 
@@ -115,6 +117,8 @@ data_clean$ses_marital_status <- factor(data_clean$ses_marital_status, levels = 
 table(data_clean$ses_marital_status)
 sum(table(data_clean$ses_marital_status))
 
+## ------------------------ born in canada -------------------------------------
+
 # Q48
 
 attributes(data_raw$Q48)
@@ -124,6 +128,8 @@ data_clean$ses_born_canada[data_raw$Q48 == 1] <- 1
 data_clean$ses_born_canada[data_raw$Q48 != 1] <- 0
 table(data_clean$ses_born_canada)
 sum(table(data_clean$ses_born_canada))
+
+## ---------------------------- education --------------------------------------
 
 # Q51
 
@@ -145,6 +151,8 @@ data_clean$ses_education <- factor(data_clean$ses_education, levels = c("before_
 table(data_clean$ses_education)
 sum(table(data_clean$ses_education))
 
+## ---------------------------- sexual orientation -----------------------------
+
 # Q52
 
 attributes(data_raw$Q52)
@@ -157,6 +165,8 @@ data_clean$ses_sexual_orientation[data_raw$Q52 == 4 | data_raw$Q52 == 5] <- "oth
 data_clean$ses_sexual_orientation <- factor(data_clean$ses_sexual_orientation, levels = c("heterosexual", "bisexual", "homosexual", "other")) 
 table(data_clean$ses_sexual_orientation)
 sum(table(data_clean$ses_sexual_orientation))
+
+## -------------------------------- occupation ---------------------------------
 
 # Q54
 
@@ -178,19 +188,7 @@ data_clean$ses_occupation <- factor(data_clean$ses_occupation, levels = c("emplo
 table(data_clean$ses_occupation)
 sum(table(data_clean$ses_occupation))
 
-# Q10B_A1
-
-# --------------------------- PAS BEAUCOUP DE RÉPONDANTS -----------------------
-
-attributes(data_raw$Q10B_A1)
-table(data_raw$Q10B_A1)
-sum(table(data_raw$Q10B_A1))
-data_clean$horoscope <- NA
-data_clean$horoscope <- (data_raw$Q10B_A1 - 1) / 4
-table(data_clean$horoscope)
-sum(table(data_clean$horoscope))
-
-# ------------------------------------------------------------------------------
+## ---------------------------- how many immigrants ----------------------------
 
 # Q4
 
@@ -200,6 +198,8 @@ data_clean$how_many_immigrants <- NA
 data_clean$how_many_immigrants <- (data_raw$Q4 - 1) / 4
 table(data_clean$how_many_immigrants)
 sum(table(data_clean$how_many_immigrants))
+
+## -------------------------- member of church ---------------------------------
 
 # Q61
 
@@ -211,19 +211,20 @@ data_clean$religion_member_of_church[data_raw$Q61 != 1] <- 0
 table(data_clean$religion_member_of_church)
 sum(table(data_clean$religion_member_of_church))
 
-# Q62
+## --------------------------- attachment to church ----------------------------
 
-# --------------------------- Juste 593 répondants  ----------------------------
+# Q62
 
 attributes(data_raw$Q62)
 table(data_raw$Q62)
 sum(table(data_raw$Q62))
 data_clean$religion_attached_to_church <- NA
 data_clean$religion_attached_to_church <- (data_raw$Q62 - 1) / 4
+data_clean$religion_attached_to_church[data_clean$religion_member_of_church == 0] <- 0
 table(data_clean$religion_attached_to_church)
 sum(table(data_clean$religion_attached_to_church))
 
-# ------------------------------------------------------------------------------
+## --------------------------- ethnicity ---------------------------------------
 
 # Q49
 
@@ -241,6 +242,8 @@ data_clean$ses_ethnicity <- factor(data_clean$ses_ethnicity)
 table(data_clean$ses_ethnicity)
 sum(table(data_clean$ses_ethnicity))
 
+## ---------------- Covid limiting freedom is necessary ------------------------
+
 # Q2B_5
 
 attributes(data_raw$Q2B_5)
@@ -249,6 +252,8 @@ data_clean$covid_limiting_freedom_is_necessary <- NA
 data_clean$covid_limiting_freedom_is_necessary <- (data_raw$Q2B_5 - 1) / 4
 table(data_clean$covid_limiting_freedom_is_necessary)
 sum(table(data_clean$covid_limiting_freedom_is_necessary))
+
+## ------------------ Covid only dangerous for vulnerable people ---------------
 
 # Q12_4
 
@@ -260,6 +265,8 @@ data_clean$covid_only_vulnerable_people <- sondr::finverser(data_clean$covid_onl
 table(data_clean$covid_only_vulnerable_people)
 sum(table(data_clean$covid_only_vulnerable_people))
 
+## -------------------- Not afraid of dying of covid ---------------------------
+
 # Q17_3
 
 attributes(data_raw$Q17_3)
@@ -270,6 +277,8 @@ data_clean$covid_not_afraid_of_dying <- sondr::finverser(data_clean$covid_not_af
 table(data_clean$covid_not_afraid_of_dying)
 sum(table(data_clean$covid_not_afraid_of_dying))
 
+## ------------------------ Covid feeling --------------------------------------
+
 # Q23
 
 attributes(data_raw$Q23)
@@ -279,6 +288,7 @@ data_clean$covid_feeling <- data_raw$Q23 / 10
 table(data_clean$covid_feeling)
 sum(table(data_clean$covid_feeling))
 
+## ----------------------- Covid pandemic more serious -------------------------
 
 # Q37_2
 
@@ -289,17 +299,17 @@ data_clean$covid_pandemic_more_serious <- (data_raw$Q37_2 - 1) / 4
 table(data_clean$covid_pandemic_more_serious)
 sum(table(data_clean$covid_pandemic_more_serious))
 
-# covid
+# covid ----------------------------- covid ------------------------------------
 
 data_clean$during_covid <- 1
 
-# survey 
+# survey ----------------- which survey ----------------------------------------
 
 data_clean$survey_name <- "quorum_1"
 
 # Save data
 
-saveRDS(data_clean, "_SharedFolder_article_religion-magie/Data/data_clean/data_quorum_1.RDS")
+saveRDS(data_clean, "_SharedFolder_article_religion-magie/Data/data_clean/data_quorum_1.rds")
 
 
 

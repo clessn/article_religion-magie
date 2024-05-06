@@ -1,7 +1,9 @@
 library(dplyr)
 library(ggplot2)
 
-data <- readRDS("_SharedFolder_article_religion-magie/Data/data_clean/data_quorum_1.RDS")
+source("code/cleaning/cleaning_quorum_1.R")
+
+data <- readRDS("_SharedFolder_article_religion-magie/Data/data_clean/data_quorum_1.rds")
 
 data_scale <- data %>%
     select(starts_with("covid")) %>% 
@@ -29,5 +31,5 @@ ggplot(data, aes(x = covid_fear_scale)) +
 ggsave("_SharedFolder_article_religion-magie/Data/graphs/histogram_covid_fear_scale.png")
 
 
-saveRDS(data, "_SharedFolder_article_religion-magie/Data/data_clean/data_quorum_1.RDS")
+saveRDS(data, "_SharedFolder_article_religion-magie/Data/data_clean/data_quorum_1.rds")
 
