@@ -108,6 +108,13 @@ table(data_clean$horoscope)
 
 ## Q23 -------------------------------------------------------------------------
 
+clean_immigrants <- readRDS("_SharedFolder_article_religion-magie/Data/data_clean/data_quorum_1.rds")$how_many_immigrants
+
+quantile(data_raw$Q23, prob = c(0.25, 0.45, 0.5, 0.75, 0.85, 0.9))
+
+hist(data_raw$Q23[data_raw$Q23 <= 200000])
+
+quantile(clean_immigrants, probs = c(0, 0.2))
 attributes(data_raw$Q23)
 table(data_raw$Q23)
 data_clean$how_many_immigrants <- NA
