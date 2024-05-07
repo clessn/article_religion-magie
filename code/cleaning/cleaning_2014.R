@@ -5,7 +5,7 @@ data <- haven::read_sav("_SharedFolder_article_religion-magie/Data/MJU001 - POND
 codebook <- sondr::sav_to_codebook(data)
 
 data_raw <- data %>% 
-  select(PROV, REG_ADM, SEXE, YOB, AGE, LANGU, Q2_5, Q23, Q28, Q29, Q32, Q33, Q34, Q48, Q36, Q39)
+  select(PROV, SEXE, YOB, AGE, LANGU, Q2_5, Q23, Q28, Q29, Q32, Q33, Q34, Q48, Q36, Q39)
 
 data_clean <- data.frame(id = 1:nrow(data_raw))
 
@@ -28,14 +28,6 @@ data_clean$ses_province[data_raw$PROV == 11] <- "qc"
 data_clean$ses_province[data_raw$PROV == 12] <- "sk"
 data_clean$ses_province[data_raw$PROV == 13] <- "yt"
 table(data_clean$ses_province)
-
-## CP ------------------------- postal code ------------------------------------
-
-attributes(data_raw$REG_ADM)
-table(data_raw$REG_ADM)
-data_clean$ses_postal_code <- NA
-data_clean$ses_postal_code <- data_raw$REG_ADM
-table(data_clean$ses_postal_code)
 
 ## SEXE ---------------------------- sexe --------------------------------------
 
@@ -96,48 +88,34 @@ table(data_clean$ses_language)
 ## Q23 ------------------------ how many immigrants ----------------------------
 
 clean_immigrants <- sondr::load_variable("_SharedFolder_article_religion-magie/Data/data_clean/data_quorum_1.rds", "how_many_immigrants")
-sondr::find_quantile_range(0.5, clean_immigrants)
-sondr::find_quantile_range(300000, data_raw$Q23)
-sondr::find_quantile_range(0.25, clean_immigrants)
+attributes(clean_immigrants)
+sondr::find_quantile_range(c(0, 0.25, 0.5, 0.75, 1), clean_immigrants)
 
+quantile(data_raw$Q23, prob = c(0, 0.23))
+quantile(data_raw$Q23, prob = c(0.24, 0.45))
+quantile(data_raw$Q23, prob = c(0.46, 0.80))
+quantile(data_raw$Q23, prob = c(0.81, 0.93))
+quantile(data_raw$Q23, prob = c(0.94, 1.0))
 
-
-quantile(data_raw$Q23, prob = c(0.25, 0.45, 0.5, 0.75, 0.85, 0.9))
-
-hist(data_raw$Q23[data_raw$Q23 <= 200000])
-
-quantile(clean_immigrants, probs = c(0, 0.2))
 attributes(data_raw$Q23)
 table(data_raw$Q23)
 data_clean$how_many_immigrants <- NA
-thresholds <- c(0, 200000, 300000, 400000, 1000000, Inf)
-labels <- c(1, 2, 3, 4, 5)
-data_raw$immigrants_likert <- cut(data_raw$Q23, breaks = thresholds, labels = labels, include.lowest = TRUE, right = FALSE)
-data_clean$how_many_immigrants <- (as.numeric(data_raw$immigrants_likert) -1) / 4
+data_clean$how_many_immigrants[data_raw$Q23 <= 100000] <- 0
+data_clean$how_many_immigrants[data_raw$Q23 > 100000 & data_raw$Q23 < 208100] <- 0.25
+data_clean$how_many_immigrants[data_raw$Q23 >= 208100 & data_raw$Q23 < 350000] <- 0.5
+data_clean$how_many_immigrants[data_raw$Q23 >= 350000 & data_raw$Q23 <= 500000] <- 0.75
+data_clean$how_many_immigrants[data_raw$Q23 >500000] <- 1
 table(data_clean$how_many_immigrants)
-
-## Q28 ---------------------- member of church ---------------------------------
-
-attributes(data_raw$Q28)
-table(data_raw$Q28)
-data_clean$religion_member_of_church <- NA
-data_clean$religion_member_of_church[data_raw$Q28 == 1 | data_raw$Q28 == 96] <- 0
-data_clean$religion_member_of_church[data_raw$Q28 == 2] <- 1
-data_clean$religion_member_of_church[data_raw$Q28 == 3] <- 1
-data_clean$religion_member_of_church[data_raw$Q28 == 4] <- 1
-data_clean$religion_member_of_church[data_raw$Q28 == 5] <- 1
-data_clean$religion_member_of_church[data_raw$Q28 == 6] <- 1
-data_clean$religion_member_of_church[data_raw$Q28 == 7] <- 1
-data_clean$religion_member_of_church[data_raw$Q28 == 8] <- 1
-table(data_clean$religion_member_of_church)
 
 ## Q29 ----------------------- attachment to church ----------------------------
 
 attributes(data_raw$Q29)
+attributes(data_raw$Q28)
 table(data_raw$Q29)
 data_clean$religion_attached_to_church <- NA
 data_clean$religion_attached_to_church <- (data_raw$Q29 - 1) / 4
-table(data_clean$religion_attached_to_church)
+data_clean$religion_attached_to_church[data_raw$Q28 == 1] <- 0
+sum(table(data_clean$religion_attached_to_church))
 
 ## Q32 ------------------------ sexual orientation -----------------------------
 

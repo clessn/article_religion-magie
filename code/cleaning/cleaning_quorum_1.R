@@ -5,7 +5,7 @@ data <- haven::read_sav("_SharedFolder_article_religion-magie/Data/quorum_1/ULAQ
 codebook <- sondr::sav_to_codebook(data)
 
 data_raw <- data %>% 
-  select(PROV, REG_ADM, SEXE, YOB, AGE, LANGU, Q47, Q48, Q51, Q52, Q54, Q10B_A1, Q4, Q61, Q62, Q49, Q2B_5, Q12_4, Q17_3, Q17_7, Q23, Q35, Q37_2)
+  select(PROV, SEXE, YOB, AGE, LANGU, Q47, Q48, Q51, Q52, Q54, Q10B_A1, Q4, Q61, Q62, Q49, Q2B_5, Q12_4, Q17_3, Q17_7, Q23, Q35, Q37_2)
 
 data_clean <- data.frame(id = 1:nrow(data_raw))
 
@@ -29,15 +29,6 @@ data_clean$ses_province[data_raw$PROV == 12] <- "sk"
 data_clean$ses_province[data_raw$PROV == 13] <- "yt"
 table(data_clean$ses_province)
 sum(table(data_clean$ses_province))
-
-## CP ------------------------- postal code ------------------------------------
-
-attributes(data_raw$REG_ADM)
-table(data_raw$REG_ADM)
-data_clean$ses_postal_code <- NA
-data_clean$ses_postal_code <- data_raw$REG_ADM
-table(data_clean$ses_postal_code)
-sum(table(data_clean$ses_postal_code))
 
 ## SEXE ---------------------------- sexe --------------------------------------
 
@@ -199,28 +190,17 @@ data_clean$how_many_immigrants <- (data_raw$Q4 - 1) / 4
 table(data_clean$how_many_immigrants)
 sum(table(data_clean$how_many_immigrants))
 
-## -------------------------- member of church ---------------------------------
-
-# Q61
-
-attributes(data_raw$Q61)
-table(data_raw$Q61)
-data_clean$religion_member_of_church <- NA
-data_clean$religion_member_of_church[data_raw$Q61 == 1] <- 1
-data_clean$religion_member_of_church[data_raw$Q61 != 1] <- 0
-table(data_clean$religion_member_of_church)
-sum(table(data_clean$religion_member_of_church))
-
 ## --------------------------- attachment to church ----------------------------
 
 # Q62
 
 attributes(data_raw$Q62)
+attributes(data_raw$Q61)
 table(data_raw$Q62)
 sum(table(data_raw$Q62))
 data_clean$religion_attached_to_church <- NA
 data_clean$religion_attached_to_church <- (data_raw$Q62 - 1) / 4
-data_clean$religion_attached_to_church[data_clean$religion_member_of_church == 0] <- 0
+data_clean$religion_attached_to_church[data_raw$Q61 == 2] <- 0
 table(data_clean$religion_attached_to_church)
 sum(table(data_clean$religion_attached_to_church))
 
