@@ -272,6 +272,12 @@ data_clean$covid_not_afraid_of_dying <- sondr::finverser(data_clean$covid_not_af
 table(data_clean$covid_not_afraid_of_dying)
 sum(table(data_clean$covid_not_afraid_of_dying))
 
+## ---------------------- Afraid of dying of covid -----------------------------
+
+data_clean$afraid_of_dying <- NA
+data_clean$afraid_of_dying <- sondr::clean_likert_numeric_vector(data_raw$Q17_3)
+table(data_clean$afraid_of_dying)
+
 ## ------------------------ Covid feeling --------------------------------------
 
 # Q23
