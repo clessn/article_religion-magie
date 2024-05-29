@@ -1,0 +1,53 @@
+\begin{table}
+\centering
+\begin{talltblr}[         %% tabularray outer open
+entry=none,label=none,
+note{}={+ p < 0.1, * p < 0.05, ** p < 0.01, *** p < 0.001},
+]                     %% tabularray outer close
+{                     %% tabularray inner open
+colspec={Q[]Q[]Q[]Q[]},
+cell{2}{1}={c=4}{},cell{8}{1}={c=4}{},cell{14}{1}={c=4}{},
+cell{3}{1}={preto={\hspace{1em}}},
+cell{4}{1}={preto={\hspace{1em}}},
+cell{5}{1}={preto={\hspace{1em}}},
+cell{6}{1}={preto={\hspace{1em}}},
+cell{7}{1}={preto={\hspace{1em}}},
+cell{9}{1}={preto={\hspace{1em}}},
+cell{10}{1}={preto={\hspace{1em}}},
+cell{11}{1}={preto={\hspace{1em}}},
+cell{12}{1}={preto={\hspace{1em}}},
+cell{13}{1}={preto={\hspace{1em}}},
+cell{15}{1}={preto={\hspace{1em}}},
+cell{16}{1}={preto={\hspace{1em}}},
+cell{17}{1}={preto={\hspace{1em}}},
+cell{18}{1}={preto={\hspace{1em}}},
+cell{19}{1}={preto={\hspace{1em}}},
+cell{20}{1}={preto={\hspace{1em}}},
+column{1}={halign=l,},
+column{2}={halign=c,},
+column{3}={halign=c,},
+column{4}={halign=c,},
+}                     %% tabularray inner close
+\toprule
+& Tout le Canada & Québec & ROC \\ \midrule %% TinyTableHeader
+Tous les répondants &&& \\
+covid\_fear\_scale  & 0.028                            & -0.075+                          & 0.172*                           \\
+& (0.040)                          & (0.044)                          & (0.078)                          \\
+Num.Obs.              & 2316                             & 1412                             & 904                              \\
+R2                    & 0.083                            & 0.090                            & 0.088                            \\
+R2 Adj.               & 0.069                            & 0.067                            & 0.052                            \\
+Seulement les répondants religieux &&& \\
+covid\_fear\_scale  & 0.211*                           & 0.126                            & 0.256*                           \\
+& (0.086)                          & (0.129)                          & (0.125)                          \\
+Num.Obs.              & 534                              & 261                              & 273                              \\
+R2                    & 0.125                            & 0.162                            & 0.179                            \\
+R2 Adj.               & 0.065                            & 0.040                            & 0.066                            \\
+Religion binaire &&& \\
+covid\_fear\_scale  & -0.275                           & -1.121*                          & 0.638                            \\
+& (0.385)                          & (0.549)                          & (0.572)                          \\
+Num.Obs.              & 2316                             & 1412                             & 904                              \\
+Years Fixed Effects   & \$\textbackslash{}checkmark\$ &                                  & \$\textbackslash{}checkmark\$ \\
+Sources Fixed Effects &                                  & \$\textbackslash{}checkmark\$ & \$\textbackslash{}checkmark\$ \\
+\bottomrule
+\end{talltblr}
+\end{table}

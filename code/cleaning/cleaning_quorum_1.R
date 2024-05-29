@@ -198,11 +198,26 @@ attributes(data_raw$Q62)
 attributes(data_raw$Q61)
 table(data_raw$Q62)
 sum(table(data_raw$Q62))
-data_clean$religion_attached_to_church <- NA
-data_clean$religion_attached_to_church <- (data_raw$Q62 - 1) / 4
-data_clean$religion_attached_to_church[data_raw$Q61 == 2] <- 0
-table(data_clean$religion_attached_to_church)
-sum(table(data_clean$religion_attached_to_church))
+data_clean$religion_attached_to_church_all <- NA
+data_clean$religion_attached_to_church_all <- (data_raw$Q62 - 1) / 4
+data_clean$religion_attached_to_church_all[data_raw$Q61 == 2] <- 0
+table(data_clean$religion_attached_to_church_all)
+sum(table(data_clean$religion_attached_to_church_all))
+
+## --------------------------- attachment to church ----------------------------
+
+data_clean$religion_attached_to_church_religious <- NA
+data_clean$religion_attached_to_church_religious <- (data_raw$Q62 - 1) / 4
+table(data_clean$religion_attached_to_church_religious)
+sum(table(data_clean$religion_attached_to_church_religious))
+
+## --------------------------- Religious bin -----------------------------------
+
+data_clean$religion_bin <- NA
+data_clean$religion_bin[data_raw$Q61 == 2] <- 0
+data_clean$religion_bin[data_raw$Q61 !=2] <- 1
+table(data_clean$religion_bin)
+sum(table(data_clean$religion_bin))
 
 ## --------------------------- ethnicity ---------------------------------------
 

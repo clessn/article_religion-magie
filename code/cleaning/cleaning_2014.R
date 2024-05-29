@@ -112,10 +112,25 @@ table(data_clean$how_many_immigrants)
 attributes(data_raw$Q29)
 attributes(data_raw$Q28)
 table(data_raw$Q29)
-data_clean$religion_attached_to_church <- NA
-data_clean$religion_attached_to_church <- (data_raw$Q29 - 1) / 4
-data_clean$religion_attached_to_church[data_raw$Q28 == 1] <- 0
-sum(table(data_clean$religion_attached_to_church))
+data_clean$religion_attached_to_church_all <- NA
+data_clean$religion_attached_to_church_all <- (data_raw$Q29 - 1) / 4
+data_clean$religion_attached_to_church_all[data_raw$Q28 == 1] <- 0
+sum(table(data_clean$religion_attached_to_church_all))
+
+## -------------- attachment to church for religious people --------------------
+
+data_clean$religion_attached_to_church_religious <- NA
+data_clean$religion_attached_to_church_religious <- (data_raw$Q29 - 1) / 4
+table(data_clean$religion_attached_to_church_religious)
+sum(table(data_clean$religion_attached_to_church_religious))
+
+## ---------------------- Religious or not -------------------------------------
+
+data_clean$religion_bin <- NA
+data_clean$religion_bin[data_raw$Q28 == 1] <- 0
+data_clean$religion_bin[data_raw$Q28 != 1] <- 1
+table(data_clean$religion_bin)
+sum(table(data_clean$religion_bin))
 
 ## Q32 ------------------------ sexual orientation -----------------------------
 
