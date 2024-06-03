@@ -1,0 +1,41 @@
+\begin{table}
+\centering
+\begin{talltblr}[         %% tabularray outer open
+caption={Relation entre la peur de la mort durant la COVID-19 et la religiosité},
+entry=none,label=none,
+note{}={+ p < 0.1, * p < 0.05, ** p < 0.01, *** p < 0.001},
+note{ }={Notes: Les contrôles utilisés dans les modèles sont les suivants: sexe, groupe d'âge, état civil, lieu de naissance, éducation, orientation sexuelle, occupation, et ethnie. Les données de pondération proviennent du recensement.},
+]                     %% tabularray outer close
+{                     %% tabularray inner open
+colspec={Q[]Q[]Q[]Q[]Q[]},
+cell{2}{1}={c=5}{},cell{7}{1}={c=5}{},
+cell{3}{1}={preto={\hspace{1em}}},
+cell{4}{1}={preto={\hspace{1em}}},
+cell{5}{1}={preto={\hspace{1em}}},
+cell{6}{1}={preto={\hspace{1em}}},
+cell{8}{1}={preto={\hspace{1em}}},
+cell{9}{1}={preto={\hspace{1em}}},
+cell{10}{1}={preto={\hspace{1em}}},
+cell{11}{1}={preto={\hspace{1em}}},
+cell{12}{1}={preto={\hspace{1em}}},
+column{1}={halign=l,},
+column{2}={halign=c,},
+column{3}={halign=c,},
+column{4}={halign=c,},
+column{5}={halign=c,},
+}                     %% tabularray inner close
+\toprule
+& Canada & Canada (Pondéré) & Québec & ROC \\ \midrule %% TinyTableHeader
+Seulement les répondants religieux avec contrôles &&&& \\
+Peur de la mort & -0.163*** & -0.190*** & -0.102+ & -0.204*** \\
+& (0.038)   & (0.044)   & (0.054) & (0.056)   \\
+R2              & 0.107     & 0.140     & 0.149   & 0.167     \\
+Num.Obs.        & 534       & 534       & 261     & 273       \\
+Tous les répondants avec contrôles &&&& \\
+Peur de la mort & -0.022    & -0.061*   & 0.023   & -0.087**  \\
+& (0.018)   & (0.027)   & (0.020) & (0.034)   \\
+R2              & 0.065     & 0.076     & 0.080   & 0.087     \\
+Num.Obs.        & 2316      & 2316      & 1412    & 904       \\
+\bottomrule
+\end{talltblr}
+\end{table}

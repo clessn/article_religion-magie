@@ -175,7 +175,7 @@ data_clean$ses_occupation[data_raw$Q54 == 7] <- "unemployed"
 data_clean$ses_occupation[data_raw$Q54 == 8] <- "retired"
 data_clean$ses_occupation[data_raw$Q54 == 9] <- "student"
 data_clean$ses_occupation[data_raw$Q54 == 10] <- "employed"
-data_clean$ses_occupation <- factor(data_clean$ses_occupation, levels = c("employed", "unemployed", "retired", "student"))
+data_clean$ses_occupation <- factor(data_clean$ses_occupation)
 table(data_clean$ses_occupation)
 sum(table(data_clean$ses_occupation))
 
@@ -244,7 +244,7 @@ sum(table(data_clean$ses_ethnicity))
 attributes(data_raw$Q2B_5)
 table(data_raw$Q2B_5)
 data_clean$covid_limiting_freedom_is_necessary <- NA
-data_clean$covid_limiting_freedom_is_necessary <- (data_raw$Q2B_5 - 1) / 4
+data_clean$covid_limiting_freedom_is_necessary <- sondr::clean_likert_numeric_vector(sondr::finverser(data_raw$Q2B_5))
 table(data_clean$covid_limiting_freedom_is_necessary)
 sum(table(data_clean$covid_limiting_freedom_is_necessary))
 
@@ -255,28 +255,20 @@ sum(table(data_clean$covid_limiting_freedom_is_necessary))
 attributes(data_raw$Q12_4)
 table(data_raw$Q12_4)
 data_clean$covid_only_vulnerable_people <- NA
-data_clean$covid_only_vulnerable_people <- (data_raw$Q12_4 - 1) / 4
-data_clean$covid_only_vulnerable_people <- sondr::finverser(data_clean$covid_only_vulnerable_people)
+data_clean$covid_only_vulnerable_people <- sondr::clean_likert_numeric_vector(data_raw$Q12_4)
 table(data_clean$covid_only_vulnerable_people)
 sum(table(data_clean$covid_only_vulnerable_people))
 
-## -------------------- Not afraid of dying of covid ---------------------------
+## ---------------------- Afraid of dying of covid -----------------------------
 
 # Q17_3
 
 attributes(data_raw$Q17_3)
 table(data_raw$Q17_3)
-data_clean$covid_not_afraid_of_dying <- NA
-data_clean$covid_not_afraid_of_dying <- (data_raw$Q17_3 - 1) / 4
-data_clean$covid_not_afraid_of_dying <- sondr::finverser(data_clean$covid_not_afraid_of_dying)
-table(data_clean$covid_not_afraid_of_dying)
-sum(table(data_clean$covid_not_afraid_of_dying))
-
-## ---------------------- Afraid of dying of covid -----------------------------
-
-data_clean$afraid_of_dying <- NA
-data_clean$afraid_of_dying <- sondr::clean_likert_numeric_vector(data_raw$Q17_3)
-table(data_clean$afraid_of_dying)
+data_clean$covid_afraid_of_dying <- NA
+data_clean$covid_afraid_of_dying <- sondr::clean_likert_numeric_vector(data_raw$Q17_3)
+table(data_clean$covid_afraid_of_dying)
+sum(table(data_clean$covid_afraid_of_dying))
 
 ## ------------------------ Covid feeling --------------------------------------
 
@@ -285,7 +277,7 @@ table(data_clean$afraid_of_dying)
 attributes(data_raw$Q23)
 table(data_raw$Q23)
 data_clean$covid_feeling <- NA
-data_clean$covid_feeling <- data_raw$Q23 / 10
+data_clean$covid_feeling <- sondr::finverser(data_raw$Q23 / 10)
 table(data_clean$covid_feeling)
 sum(table(data_clean$covid_feeling))
 
@@ -296,7 +288,7 @@ sum(table(data_clean$covid_feeling))
 attributes(data_raw$Q37_2)
 table(data_raw$Q37_2)
 data_clean$covid_pandemic_more_serious <- NA
-data_clean$covid_pandemic_more_serious <- (data_raw$Q37_2 - 1) / 4
+data_clean$covid_pandemic_more_serious <- sondr::clean_likert_numeric_vector(sondr::finverser(data_raw$Q37_2))
 table(data_clean$covid_pandemic_more_serious)
 sum(table(data_clean$covid_pandemic_more_serious))
 
