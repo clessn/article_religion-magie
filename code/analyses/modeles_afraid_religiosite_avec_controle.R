@@ -39,13 +39,13 @@ data_quorum$weight <- ifelse(data_quorum$ses_province == "qc", weight_quebec, we
 survey_design <- survey::svydesign(ids = ~1, data = data_quorum, weights = ~weight)
 
 models_list <- list(
-  'Seulement les répondants religieux avec contrôles' = list(
+  'Seulement les répondants religieux' = list(
     "Canada" = lm(religion_attached_to_church_religious ~ covid_afraid_of_dying + ses_female + ses_age_group + ses_marital_status + ses_born_canada + ses_education + ses_sexual_orientation + ses_occupation + ses_ethnicity, data = data_quorum),
     "Canada (Pondéré)" = survey::svyglm(religion_attached_to_church_religious ~ covid_afraid_of_dying + ses_female + ses_age_group + ses_marital_status + ses_born_canada + ses_education + ses_sexual_orientation + ses_occupation + ses_ethnicity, design = survey_design),
     "Québec" = lm(religion_attached_to_church_religious ~ covid_afraid_of_dying + ses_female + ses_age_group + ses_marital_status + ses_born_canada + ses_education + ses_sexual_orientation + ses_occupation + ses_ethnicity, data = data_quorum_qc),
     "ROC" = lm(religion_attached_to_church_religious ~ covid_afraid_of_dying + ses_female + ses_age_group + ses_marital_status + ses_born_canada + ses_education + ses_sexual_orientation + ses_occupation + ses_ethnicity, data = data_quorum_roc)
   ),
-  'Tous les répondants avec contrôles' = list(
+  'Tous les répondants' = list(
     "Canada" = lm(religion_attached_to_church_all ~ covid_afraid_of_dying + ses_female + ses_age_group + ses_marital_status + ses_born_canada + ses_education + ses_sexual_orientation + ses_occupation + ses_ethnicity, data = data_quorum),
     "Canada (Pondéré)" = survey::svyglm(religion_attached_to_church_all ~ covid_afraid_of_dying + ses_female + ses_age_group + ses_marital_status + ses_born_canada + ses_education + ses_sexual_orientation + ses_occupation + ses_ethnicity, design = survey_design),
     "Québec" = lm(religion_attached_to_church_all ~ covid_afraid_of_dying + ses_female + ses_age_group + ses_marital_status + ses_born_canada + ses_education + ses_sexual_orientation + ses_occupation + ses_ethnicity, data = data_quorum_qc),
