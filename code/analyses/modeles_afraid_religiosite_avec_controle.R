@@ -1,7 +1,7 @@
 library(dplyr)
 library(ggplot2)
 
-data <- readRDS("_SharedFolder_article_religion-magie/Data/data_clean/data_religion_magie.rds")
+data <- readRDS("_SharedFolder_article_religion-science/Data/data_clean/data_religion_magie.rds")
 
 data_quorum <- data  %>% 
     filter(survey_name == "quorum_1")
@@ -67,3 +67,30 @@ modelsummary::modelsummary(models_list,
              title = "Relation entre la peur de la mort durant la COVID-19 et la religiosité",
              notes = "Notes: Les contrôles utilisés dans les modèles sont les suivants: sexe, groupe d'âge, état civil, lieu de naissance, éducation, orientation sexuelle, occupation, et ethnie. Les données de pondération proviennent du recensement.")
 
+# Model plot --------------------------------------------------------------
+
+### create a list containing each model
+
+models_list_plot <- as.list(unlist(models_list, recursive = FALSE))
+
+### use modelplot without drawing the plot. (draw = FALSE)
+modelsummary::modelplot(models_list_plot,
+                        draw = FALSE) %>% 
+  ### create variables for facet_wrap
+  tidyr::separate(model, into = c("respondents", "model"), sep = "\\.") %>% 
+  filter(term == "covid_afraid_of_dying") %>%
+  mutate() %>% 
+  ggplot(aes(x = estimate, y = model)) +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "grey75") +
+  facet_wrap(~respondents) +
+  geom_point() +
+  geom_linerange(aes(xmin = conf.low, xmax = conf.high)) +
+  labs(caption = "Notes:\n   Les lignes autour des points présentent les intervalles de confiance à 95%.\n   Les contrôles utilisés dans les modèles sont les suivants: sexe, groupe d'âge, état civil, lieu de naissance,\n    éducation, orientation sexuelle, occupation, et ethnie.\n   Les données de pondération proviennent du recensement.",
+       x = "<br>Coefficient de régression linéaire<br>Peur de la mort &rarr; Religiosité<br>") +
+  clessnize::theme_clean_light() +
+  theme(axis.title.y = element_blank(),
+        plot.caption.position = "plot",
+        axis.title.x = ggtext::element_markdown())
+
+ggsave("_SharedFolder_article_religion-science/figures/figure5_model.png",
+       width = 6.5, height = 4, dpi = 500)
