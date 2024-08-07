@@ -34,15 +34,16 @@ variables <- c()
 output <- clean_data |> 
   tidyr::pivot_longer(
     cols = variables,
-    names_to = "variable",
-    values_to = "value"
+    names_to = "variable_id",
+    values_to = "choice"
   ) |> 
   group_by(subgroup, variable, value) |> 
   summarise(
     n = n()
   ) |> 
   group_by(subgroup, variable) |> 
-  mutate(prop = n / sum(n))
+  mutate(value = n / sum(n)) |> 
+  select(-n)
 
 
 # Save -------------------------------------------------------------------
