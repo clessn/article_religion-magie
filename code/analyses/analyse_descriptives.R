@@ -15,3 +15,5 @@ data_quorum_qc <- data_quorum %>%
 
 hist(data_quorum_roc$ses_age, breaks = 20, main = "Histogramme de l'âge des répondants", xlab = "Âge", col = "lightblue")
 
+
+
