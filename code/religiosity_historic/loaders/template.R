@@ -15,10 +15,10 @@ clean_data <- data.frame(
 # Clean relevant variables -----------------------------------------------
 
 
-## Quebec-ROC -----------------------------------------------------------------
+## Quebec-Canada -----------------------------------------------------------------
 
 ### name this variable "subgroup"
-#### categories : qc, roc
+#### categories : qc, can
 
 
 ## Importance of religiosity ----------------------------------------------
