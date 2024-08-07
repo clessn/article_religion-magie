@@ -47,6 +47,7 @@ output <- clean_data |>
     names_to = "variable_id",
     values_to = "choice"
   ) |> 
+  tidyr::drop_na(choice) |> 
   group_by(subgroup, variable_id, choice) |> 
   summarise(
     n = n()
