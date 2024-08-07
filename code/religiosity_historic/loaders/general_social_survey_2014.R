@@ -29,6 +29,15 @@ clean_data$subgroup[raw_data$PRV %in% c("96", "97", "98", "99")] <- NA
 clean_data$subgroup[is.na(raw_data$PRV)] <- NA
 table(clean_data$subgroup)
 
+## Religious Bin --------------------------------------------------------
+
+table(raw_data$RELIGFLG)
+attributes(raw_data$RELIGFLG)
+clean_data$religious_bin <- NA
+clean_data$religious_bin[raw_data$RELIGFLG == 1] <- 1
+clean_data$religious_bin[raw_data$RELIGFLG == 2] <- 0
+table(clean_data$religious_bin)
+
 ## Importance ----------------------------------------------
 
 table(raw_data$RLR_110, useNA = "always")
