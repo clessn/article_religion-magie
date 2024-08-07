@@ -48,11 +48,12 @@ output <- clean_data |>
     names_to = "variable_id",
     values_to = "choice"
   ) |> 
-  group_by(subgroup, variable, value) |> 
+  tidyr::drop_na(choice) |> 
+  group_by(subgroup, variable_id, choice) |> 
   summarise(
     n = n()
   ) |> 
-  group_by(subgroup, variable) |> 
+  group_by(subgroup, variable_id) |> 
   mutate(value = n / sum(n)) |> 
   select(-n)
 
