@@ -28,31 +28,37 @@ table(clean_data$subgroup)
 ## Importance of religiosity ----------------------------------------------
 
 attributes(raw_data$religion_import)
-
+table(raw_data$religion_import)
+clean_data$importance <- NA
+clean_data$importance[raw_data$religion_import == 1] <- 1
+clean_data$importance[raw_data$religion_import == 2] <- 0.67
+clean_data$importance[raw_data$religion_import == 3] <- 0.33
+clean_data$importance[raw_data$religion_import == 4] <- 0
+table(clean_data$importance)
 
 # Aggregate --------------------------------------------------------------
 
 #### inclure ici entre guillemets les noms des variables qui nous intéressent (exemple: importance, attend, etc.)
-variables <- c()
+variables <- c("importance")
 
 output <- clean_data |> 
   tidyr::pivot_longer(
     cols = variables,
-    names_to = "variable",
-    values_to = "value"
+    names_to = "variable_id",
+    values_to = "choice"
   ) |> 
-  group_by(subgroup, variable, value) |> 
+  group_by(subgroup, variable_id, choice) |> 
   summarise(
     n = n()
   ) |> 
-  group_by(subgroup, variable) |> 
-  mutate(prop = n / sum(n))
-
+  group_by(subgroup, variable_id) |> 
+  mutate(value = n / sum(n)) |> 
+  select(-n)
 
 # Save -------------------------------------------------------------------
 
 ### fill the survey_id variable
-survey_id <- ""
+survey_id <- "democracy_checkup_2019"
 
 ### save it in the warehouse
 saveRDS(output, paste0("_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/individual/", survey_id, ".rds"))
