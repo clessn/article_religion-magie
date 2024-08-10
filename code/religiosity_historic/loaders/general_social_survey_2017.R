@@ -3,7 +3,7 @@ library(dplyr)
 
 # Load Raw Data -------------------------------------------------------------------
 
-raw_data <- haven::read_sav("_SharedFolder_article_religion-magie/Data/religiosity_historic/lake/general_social_survey_2016.sav")
+raw_data <- haven::read_sav("_SharedFolder_article_religion-magie/Data/religiosity_historic/lake/general_social_survey_2017.sav")
 
 
 # Create Clean Data ------------------------------------------------------
@@ -49,10 +49,23 @@ clean_data$importance[raw_data$RLR_110 == 3] <- 0.33
 clean_data$importance[raw_data$RLR_110 == 4] <- 0
 table(clean_data$importance)
 
+## Frequence ----------------------------------------------------------
+
+table(raw_data$REE_02, useNA = "always")
+attributes(raw_data$REE_02)
+clean_data$participation <- NA
+clean_data$participation[raw_data$REE_02 == 1] <- 1
+clean_data$participation[raw_data$REE_02 == 2] <- 0.75
+clean_data$participation[raw_data$REE_02 == 3] <- 0.5
+clean_data$participation[raw_data$REE_02 == 4] <- 0.25
+clean_data$participation[raw_data$REE_02 == 5] <- 0
+table(clean_data$participation)
+
+
 # Aggregate --------------------------------------------------------------
 
 #### inclure ici entre guillemets les noms des variables qui nous intéressent (exemple: importance, attend, etc.)
-variables <- c("importance", "religious_bin")
+variables <- c("importance", "religious_bin", "participation")
 
 output <- clean_data |> 
   tidyr::pivot_longer(
@@ -73,7 +86,7 @@ output <- clean_data |>
 # Save -------------------------------------------------------------------
 
 ### fill the survey_id variable
-survey_id <- "general_social_survey_2016"
+survey_id <- "general_social_survey_2017"
 
 ### save it in the warehouse
 saveRDS(output, paste0("_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/individual/", survey_id, ".rds"))
