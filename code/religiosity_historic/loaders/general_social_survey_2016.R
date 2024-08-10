@@ -3,7 +3,7 @@ library(dplyr)
 
 # Load Raw Data -------------------------------------------------------------------
 
-raw_data <- haven::read_sav("_SharedFolder_article_religion-magie/Data/religiosity_historic/lake/general_social_survey_2014.sav")
+raw_data <- haven::read_sav("_SharedFolder_article_religion-magie/Data/religiosity_historic/lake/general_social_survey_2016.sav")
 
 
 # Create Clean Data ------------------------------------------------------
@@ -23,9 +23,9 @@ clean_data <- data.frame(
 table(raw_data$PRV, useNA = "always")
 attributes(raw_data$PRV)
 clean_data$subgroup <- NA
-clean_data$subgroup[raw_data$PRV == "24"] <- "qc"
-clean_data$subgroup[raw_data$PRV != "24"] <- "can"
-clean_data$subgroup[raw_data$PRV %in% c("96", "97", "98", "99")] <- NA
+clean_data$subgroup[raw_data$PRV == 24] <- "qc"
+clean_data$subgroup[raw_data$PRV != 24] <- "can"
+clean_data$subgroup[raw_data$PRV %in% c(96:99)] <- NA
 clean_data$subgroup[is.na(raw_data$PRV)] <- NA
 table(clean_data$subgroup)
 
@@ -51,15 +51,14 @@ table(clean_data$importance)
 
 ## Frequence ----------------------------------------------------------
 
-table(raw_data$REE_03, useNA = "always")
-attributes(raw_data$REE_03)
+table(raw_data$REL_02, useNA = "always")
+attributes(raw_data$REL_02)
 clean_data$participation <- NA
-clean_data$participation[raw_data$REE_03 == 1] <- 1
-clean_data$participation[raw_data$REE_03 == 2] <- 0.8
-clean_data$participation[raw_data$REE_03 == 3] <- 0.6
-clean_data$participation[raw_data$REE_03 == 4] <- 0.4
-clean_data$participation[raw_data$REE_03 == 5] <- 0.2
-clean_data$participation[raw_data$REE_03 == 6] <- 0
+clean_data$participation[raw_data$REL_02 == 1] <- 1
+clean_data$participation[raw_data$REL_02 == 2] <- 0.75
+clean_data$participation[raw_data$REL_02 == 3] <- 0.5
+clean_data$participation[raw_data$REL_02 == 4] <- 0.25
+clean_data$participation[raw_data$REL_02 == 5] <- 0
 table(clean_data$participation)
 
 # Aggregate --------------------------------------------------------------
@@ -86,7 +85,9 @@ output <- clean_data |>
 # Save -------------------------------------------------------------------
 
 ### fill the survey_id variable
-survey_id <- "general_social_survey_2014"
+survey_id <- "general_social_survey_2016"
 
 ### save it in the warehouse
 saveRDS(output, paste0("_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/individual/", survey_id, ".rds"))
+
+attributes()
