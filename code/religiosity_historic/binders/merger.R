@@ -1,40 +1,16 @@
-# Load les données 
+# Define the paths to the warehouse directories
+path_individual <- "_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/individual/"
+path_aggregated <- "_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/aggregated/"
 
-cora_cpep <- readRDS("_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/individual/cora-cpep.rds")
+# Get a list of all RDS files in both directories
+files_individual <- list.files(path_individual, pattern = "\\.rds$", full.names = TRUE)
+files_aggregated <- list.files(path_aggregated, pattern = "\\.rds$", full.names = TRUE)
 
-democracy_checkup_2019 <- readRDS("_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/individual/democracy_checkup_2019.rds")
+# Combine the lists of files
+files <- c(files_individual, files_aggregated)
 
-democracy_checkup_2020 <- readRDS("_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/individual/democracy_checkup_2020.rds")
+# Read all RDS files and combine them into a single dataframe
+combined_df <- do.call(rbind, lapply(files, readRDS))
 
-democracy_checkup_2021 <- readRDS("_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/individual/democracy_checkup_2021.rds")
-
-democracy_checkup_2022 <- readRDS("_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/individual/democracy_checkup_2022.rds")
-
-environics_2011 <- readRDS("_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/individual/environics_2011.rds")
-
-general_social_survey_2010 <- readRDS("_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/individual/general_social_survey_2010.rds")
-
-general_social_survey_2011 <- readRDS("_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/individual/general_social_survey_2011.rds")
-
-general_social_survey_2013 <- readRDS("_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/individual/general_social_survey_2013.rds")
-
-general_social_survey_2014 <- readRDS("_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/individual/general_social_survey_2014.rds")
-
-general_social_survey_2015 <- readRDS("_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/individual/general_social_survey_2015.rds")
-
-general_social_survey_2016 <- readRDS("_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/individual/general_social_survey_2016.rds")
-
-general_social_survey_2017 <- readRDS("_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/individual/general_social_survey_2017.rds")
-
-general_social_survey_2018 <- readRDS("_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/individual/general_social_survey_2018.rds")
-
-general_social_survey_2020 <- readRDS("_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/individual/general_social_survey_2020.rds")
-
-
-# r.bin() les dataframes 
-
-combined_df <- rbind(cora_cpep, democracy_checkup_2019, democracy_checkup_2020, democracy_checkup_2021, democracy_checkup_2022, environics_2011, general_social_survey_2010, general_social_survey_2011, general_social_survey_2013, general_social_survey_2014, general_social_survey_2015, general_social_survey_2016, general_social_survey_2017, general_social_survey_2018, general_social_survey_2020)
-
-
-saveRDS(combined_df, "")
-
+# Save the combined dataframe to an RDS file
+saveRDS(combined_df, "_SharedFolder_article_religion-magie/Data/religiosity_historic/mart/data.rds")
