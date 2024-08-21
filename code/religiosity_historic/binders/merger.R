@@ -13,6 +13,6 @@ files <- c(files_individual, files_aggregated)
 combined_df <- do.call(rbind, lapply(files, readRDS))
 
 # Save the combined dataframe to an RDS file
-saveRDS(combined_df, "_SharedFolder_article_religion-magie/Data/religiosity_historic/mart/data.rds")
+saveRDS(combined_df, "_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/data_no_year.rds")
 
 
