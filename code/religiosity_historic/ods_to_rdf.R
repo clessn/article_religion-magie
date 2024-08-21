@@ -1,3 +1,0 @@
-saveRDS(readODS::read_ods("_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/aggregated/ekos2022.ods"), "_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/aggregated/ekos2022.rds")
-saveRDS(readODS::read_ods("_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/aggregated/researchco22.ods"), "_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/aggregated/researchco22.rds")
-saveRDS(readODS::read_ods("_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/aggregated/researchco23.ods"), "_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/aggregated/researchco23.rds")

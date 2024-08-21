@@ -9,10 +9,19 @@ files_aggregated <- list.files(path_aggregated, pattern = "\\.rds$", full.names 
 # Combine the lists of files
 files <- c(files_individual, files_aggregated)
 
-# Read all RDS files and combine them into a single dataframe
-combined_df <- do.call(rbind, lapply(files, readRDS))
+# Function to check the number of columns in each file
+check_columns <- function(file) {
+  df <- readRDS(file)
+  return(ncol(df))
+}
 
-# Save the combined dataframe to an RDS file
-saveRDS(combined_df, "_SharedFolder_article_religion-magie/Data/religiosity_historic/mart/data.rds")
+# Get the number of columns for each file
+columns_info <- sapply(files, check_columns)
 
+# Print the column counts to identify mismatches
+print(columns_info)
 
+# Optionally, you can identify files with mismatched column counts
+unique_column_counts <- unique(columns_info)
+mismatched_files <- files[columns_info != unique_column_counts[1]]
+print(mismatched_files)
