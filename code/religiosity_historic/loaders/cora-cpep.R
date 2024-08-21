@@ -5,7 +5,6 @@ library(dplyr)
 
 raw_data <- haven::read_sav("_SharedFolder_article_religion-magie/Data/religiosity_historic/lake/cora-cpep.sav")
 
-
 # Create Clean Data ------------------------------------------------------
 
 clean_data <- data.frame(
@@ -13,7 +12,6 @@ clean_data <- data.frame(
 )
 
 # Clean relevant variables -----------------------------------------------
-
 
 ## Quebec-Canada -----------------------------------------------------------------
 
@@ -27,7 +25,6 @@ clean_data$subgroup[raw_data$Province2 == 7] <- "qc"
 clean_data$subgroup[raw_data$Province2 != 7] <- "can"
 clean_data$subgroup[is.na(raw_data$Province2)] <- NA
 table(clean_data$subgroup)
-
 
 ## Importance of religiosity ----------------------------------------------
 
@@ -68,11 +65,11 @@ output <- clean_data |>
   mutate(value = n / sum(n)) |> 
   select(-n)
 
-
 # Save -------------------------------------------------------------------
 
 ### fill the survey_id variable
 survey_id <- "cora-cpep"
+output$survey_id <- survey_id
 
 ### save it in the warehouse
 saveRDS(output, paste0("_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/individual/", survey_id, ".rds"))

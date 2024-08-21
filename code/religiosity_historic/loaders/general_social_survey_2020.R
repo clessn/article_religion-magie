@@ -90,6 +90,7 @@ output <- clean_data |>
 
 ### fill the survey_id variable
 survey_id <- "general_social_survey_2020"
+output$survey_id <- survey_id
 
 ### save it in the warehouse
 saveRDS(output, paste0("_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/individual/", survey_id, ".rds"))
