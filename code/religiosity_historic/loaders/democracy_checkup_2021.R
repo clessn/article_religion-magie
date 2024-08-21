@@ -3,7 +3,7 @@ library(dplyr)
 
 # Load Raw Data -------------------------------------------------------------------
 
-raw_data <- haven::read_sav("_SharedFolder_article_religion-magie/Data/religiosity_historic/lake/democracy_checkup_2020.sav")
+raw_data <- haven::read_sav("_SharedFolder_article_religion-magie/Data/religiosity_historic/lake/democracy_checkup_2021.sav", encoding = "latin1")
 
 # Create Clean Data ------------------------------------------------------
 
@@ -18,31 +18,31 @@ clean_data <- data.frame(
 ### name this variable "subgroup"
 #### categories : qc, can
 
-attributes(raw_data$dc20_province)
-table(raw_data$dc20_province, useNA = "always")
+attributes(raw_data$dc21_province)
+table(raw_data$dc21_province, useNA = "always")
 clean_data$subgroup <- NA
-clean_data$subgroup[raw_data$dc20_province == 11] <- "qc"
-clean_data$subgroup[raw_data$dc20_province != 11] <- "can"
+clean_data$subgroup[raw_data$dc21_province == 11] <- "qc"
+clean_data$subgroup[raw_data$dc21_province != 11] <- "can"
 table(clean_data$subgroup)
 
 ## Religious bin ----------------------------------------------------------
 
-attributes(raw_data$dc20_religion)
-table(raw_data$dc20_religion, useNA = "always")
+attributes(raw_data$dc21_religion)
+table(raw_data$dc21_religion, useNA = "always")
 clean_data$religious_bin <- NA
-clean_data$religious_bin[raw_data$dc20_religion %in% 1:2] <- 0
-clean_data$religious_bin[raw_data$dc20_religion %in% 3:23] <- 1
+clean_data$religious_bin[raw_data$dc21_religion %in% 1:2] <- 0
+clean_data$religious_bin[raw_data$dc21_religion %in% 3:23] <- 1
 table(clean_data$religious_bin)
 
 ## Importance of religiosity ----------------------------------------------
 
-attributes(raw_data$dc20_religion_import)
-table(raw_data$dc20_religion_import, useNA = "always")
+attributes(raw_data$dc21_religion_import)
+table(raw_data$dc21_religion_import, useNA = "always")
 clean_data$importance <- NA
-clean_data$importance[raw_data$dc20_religion_import == 1] <- 1
-clean_data$importance[raw_data$dc20_religion_import == 2] <- 0.67
-clean_data$importance[raw_data$dc20_religion_import == 3] <- 0.33
-clean_data$importance[raw_data$dc20_religion_import == 4] <- 0
+clean_data$importance[raw_data$dc21_religion_import == 1] <- 1
+clean_data$importance[raw_data$dc21_religion_import == 2] <- 0.67
+clean_data$importance[raw_data$dc21_religion_import == 3] <- 0.33
+clean_data$importance[raw_data$dc21_religion_import == 4] <- 0
 table(clean_data$importance)
 
 # Aggregate --------------------------------------------------------------
@@ -69,11 +69,7 @@ output <- clean_data |>
 # Save -------------------------------------------------------------------
 
 ### fill the survey_id variable
-survey_id <- "democracy_checkup_2020"
-<<<<<<< HEAD
-=======
-output$survey_id <- survey_id
->>>>>>> bae007dfd3b5ac6a5ebc144f82d3018d1d90a32d
+survey_id <- "democracy_checkup_2021"
 
 ### save it in the warehouse
 saveRDS(output, paste0("_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/individual/", survey_id, ".rds"))
