@@ -38,19 +38,19 @@ clean_data$importance[raw_data$RLR_Q110 == 8 | raw_data$RLR_Q110 == 9] <- NA
 clean_data$importance[is.na(raw_data$RLR_Q110)] <- NA
 table(clean_data$importance)
 
-## Attend
+## participatation
 
 table(raw_data$RELIGATT, useNA = "always")
 attributes(raw_data$RELIGATT)
-clean_data$attend <- NA
-clean_data$attend[raw_data$RELIGATT == 1] <- 1
-clean_data$attend[raw_data$RELIGATT == 2] <- 0.75
-clean_data$attend[raw_data$RELIGATT == 3] <- 0.50
-clean_data$attend[raw_data$RELIGATT == 4] <- 0.25
-clean_data$attend[raw_data$RELIGATT == 5] <- 0
-clean_data$attend[raw_data$RELIGATT == 8 | raw_data$RELIGATT == 9] <- NA
-clean_data$attend[is.na(raw_data$RELIGATT)] <- NA
-table(clean_data$attend)
+clean_data$participatation <- NA
+clean_data$participatation[raw_data$RELIGATT == 1] <- 1
+clean_data$participatation[raw_data$RELIGATT == 2] <- 0.75
+clean_data$participatation[raw_data$RELIGATT == 3] <- 0.50
+clean_data$participatation[raw_data$RELIGATT == 4] <- 0.25
+clean_data$participatation[raw_data$RELIGATT == 5] <- 0
+clean_data$participatation[raw_data$RELIGATT == 8 | raw_data$RELIGATT == 9] <- NA
+clean_data$participatation[is.na(raw_data$RELIGATT)] <- NA
+table(clean_data$participatation)
 
 ## Religious BIN
 
@@ -65,8 +65,8 @@ table(clean_data$religious_bin)
 
 # Aggregate --------------------------------------------------------------
 
-#### inclure ici entre guillemets les noms des variables qui nous intéressent (exemple: importance, attend, etc.)
-variables <- c("importance", "attend", "religious_bin")
+#### inclure ici entre guillemets les noms des variables qui nous intéressent (exemple: importance, participatation, etc.)
+variables <- c("importance", "participatation", "religious_bin")
 
 output <- clean_data |> 
   tidyr::pivot_longer(
@@ -88,6 +88,7 @@ output <- clean_data |>
 
 ### fill the survey_id variable
 survey_id <- "general_social_survey_2011"
+output$survey_id <- survey_id
 
 ### save it in the warehouse
 saveRDS(output, paste0("_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/individual/", survey_id, ".rds"))
