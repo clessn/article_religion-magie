@@ -3,8 +3,7 @@ library(dplyr)
 
 # Load Raw Data -------------------------------------------------------------------
 
-raw_data <- haven::read_sav("_SharedFolder_article_religion-magie/Data/religiosity_historic/lake/general_social_survey_2017.sav")
-
+raw_data <- haven::read_sav("_SharedFolder_article_religion-magie/Data/religiosity_historic/lake/provincial_diversity_2014.sav")
 
 # Create Clean Data ------------------------------------------------------
 
@@ -20,52 +19,41 @@ clean_data <- data.frame(
 ### name this variable "subgroup"
 #### categories : qc, can
 
-table(raw_data$PRV, useNA = "always")
-attributes(raw_data$PRV)
+table(raw_data$PROV, useNA = "always")
+attributes(raw_data$PROV)
 clean_data$subgroup <- NA
-clean_data$subgroup[raw_data$PRV == 24] <- "qc"
-clean_data$subgroup[raw_data$PRV != 24] <- "can"
-clean_data$subgroup[raw_data$PRV %in% c(96:99)] <- NA
-clean_data$subgroup[is.na(raw_data$PRV)] <- NA
+clean_data$subgroup[raw_data$PROV == 5] <- "qc"
+clean_data$subgroup[raw_data$PROV != 5] <- "can"
 table(clean_data$subgroup)
 
 ## Religious Bin --------------------------------------------------------
 
-table(raw_data$RELIGFLG)
-attributes(raw_data$RELIGFLG)
+table(raw_data$Q98T, useNA = "always")
+attributes(raw_data$Q98T)
 clean_data$religious_bin <- NA
-clean_data$religious_bin[raw_data$RELIGFLG == 1] <- 1
-clean_data$religious_bin[raw_data$RELIGFLG == 2] <- 0
+clean_data$religious_bin[raw_data$Q98T == 23] <- 0
+clean_data$religious_bin[raw_data$Q98T != 23] <- 1
+clean_data$religious_bin[raw_data$Q98T == 24] <- NA
 table(clean_data$religious_bin)
 
-## Importance ----------------------------------------------
+## Importance of religiosity ----------------------------------------------
 
-table(raw_data$RLR_110, useNA = "always")
-attributes(raw_data$RLR_110)
+## Importance -----------------------------------------------------------------
+
+table(raw_data$Q46B, useNA = "always")
+attributes(raw_data$Q46B)
 clean_data$importance <- NA
-clean_data$importance[raw_data$RLR_110 == 1] <- 1
-clean_data$importance[raw_data$RLR_110 == 2] <- 0.67
-clean_data$importance[raw_data$RLR_110 == 3] <- 0.33
-clean_data$importance[raw_data$RLR_110 == 4] <- 0
+clean_data$importance[raw_data$Q46B == 1] <- 1
+clean_data$importance[raw_data$Q46B == 2] <- 0.67
+clean_data$importance[raw_data$Q46B == 3] <- 0.33
+clean_data$importance[raw_data$Q46B == 4] <- 0
 table(clean_data$importance)
-
-## Frequence ----------------------------------------------------------
-
-table(raw_data$REE_02, useNA = "always")
-attributes(raw_data$REE_02)
-clean_data$participation <- NA
-clean_data$participation[raw_data$REE_02 == 1] <- 1
-clean_data$participation[raw_data$REE_02 == 2] <- 0.75
-clean_data$participation[raw_data$REE_02 == 3] <- 0.5
-clean_data$participation[raw_data$REE_02 == 4] <- 0.25
-clean_data$participation[raw_data$REE_02 == 5] <- 0
-table(clean_data$participation)
 
 
 # Aggregate --------------------------------------------------------------
 
 #### inclure ici entre guillemets les noms des variables qui nous intéressent (exemple: importance, attend, etc.)
-variables <- c("importance", "religious_bin", "participation")
+variables <- c("religious_bin", "importance")
 
 output <- clean_data |> 
   tidyr::pivot_longer(
@@ -73,7 +61,7 @@ output <- clean_data |>
     names_to = "variable_id",
     values_to = "choice"
   ) |> 
-  tidyr::drop_na(choice) %>% 
+  tidyr::drop_na(choice) |> 
   group_by(subgroup, variable_id, choice) |> 
   summarise(
     n = n()
@@ -86,8 +74,10 @@ output <- clean_data |>
 # Save -------------------------------------------------------------------
 
 ### fill the survey_id variable
-survey_id <- "general_social_survey_2017"
+survey_id <- "provincial_diversity_2014"
 output$survey_id <- survey_id
 
 ### save it in the warehouse
 saveRDS(output, paste0("_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/individual/", survey_id, ".rds"))
+
+
