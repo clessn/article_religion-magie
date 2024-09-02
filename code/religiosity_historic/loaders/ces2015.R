@@ -3,7 +3,7 @@ library(dplyr)
 
 # Load Raw Data -------------------------------------------------------------------
 
-raw_data <- haven::read_sav("_SharedFolder_article_religion-magie/Data/religiosity_historic/lake/ces2011.sav")
+raw_data <- read.csv("_SharedFolder_article_religion-magie/Data/religiosity_historic/lake/ces2015.csv")
 
 # Create Clean Data ------------------------------------------------------
 
@@ -19,33 +19,33 @@ clean_data <- data.frame(
 ### name this variable "subgroup"
 #### categories : qc, can
 
-attributes(raw_data$PROVINCE11)
-table(raw_data$PROVINCE11, useNA = "always")
+table(raw_data$province, useNA = "always")
 clean_data$subgroup <- NA
-clean_data$subgroup[raw_data$PROVINCE11 == 24] <- "qc"
-clean_data$subgroup[raw_data$PROVINCE11 != 24] <- "can"
-table(clean_data$subgroup)
+clean_data$subgroup[raw_data$province == 24] <- "qc"
+clean_data$subgroup[raw_data$province != 24] <- "can"
+clean_data$subgroup[raw_data$province == 1000] <- NA
+table(clean_data$subgroup, useNA = "always")
 
 ## Religion ---------------------------------------------------------------
 
-table(raw_data$CPS11_80)
-attributes(raw_data$CPS11_80)
+table(raw_data$religion, useNA = "always")
 clean_data$religious_bin <- NA
-clean_data$religious_bin[raw_data$CPS11_80 != 0] <- 1
-clean_data$religious_bin[raw_data$CPS11_80 == 0 | raw_data$CPS11_80 == 97] <- 0
-clean_data$religious_bin[raw_data$CPS11_80 == 99 | raw_data$CPS11_80 == 98] <- NA
-table(clean_data$religious_bin)
+clean_data$religious_bin[raw_data$religion == 0] <- 0
+clean_data$religious_bin[raw_data$religion != 0] <- 1
+clean_data$religious_bin[raw_data$religion == 97 | raw_data$religion == 98 | raw_data$religion == 99 | raw_data$religion == 1000] <- NA
+table(clean_data$religious_bin, useNA = "always")
 
 ## Importance of religiosity ----------------------------------------------
 
-table(raw_data$CPS11_82)
-attributes(raw_data$CPS11_82)
+table(raw_data$relig_imp)
 clean_data$importance <- NA
-clean_data$importance[raw_data$CPS11_82 == 1] <- 1
-clean_data$importance[raw_data$CPS11_82 == 3] <- 0.67
-clean_data$importance[raw_data$CPS11_82 == 5] <- 0.33
-clean_data$importance[raw_data$CPS11_82 == 7] <- 0
+clean_data$importance[raw_data$relig_imp==1] <- 1
+clean_data$importance[raw_data$relig_imp==3] <- 0.66
+clean_data$importance[raw_data$relig_imp==5] <- 0.33
+clean_data$importance[raw_data$relig_imp==7] <- 0
+clean_data$importance[raw_data$relig_imp==98 | raw_data$relig_imp==99] <- NA
 table(clean_data$importance)
+
 
 # Aggregate --------------------------------------------------------------
 
@@ -71,7 +71,7 @@ output <- clean_data |>
 # Save -------------------------------------------------------------------
 
 ### fill the survey_id variable
-survey_id <- "ces2011"
+survey_id <- "ces2015"
 
 ### save it in the warehouse
 saveRDS(output, paste0("_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/individual/", survey_id, ".rds"))
