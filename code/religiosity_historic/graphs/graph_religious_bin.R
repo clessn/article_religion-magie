@@ -10,7 +10,7 @@ df_avg <- df %>%
   filter(choice == 1) %>%
   group_by(year, subgroup) %>%
   summarise(value = mean(value, na.rm = TRUE)) %>% 
-  filter(!is.na(value), !is.na(subgroup)) 
+  drop_na()
 
 # Create the plot
 ggplot(df_avg, aes(x = as.numeric(year), y = value, color = subgroup)) +
@@ -18,7 +18,7 @@ ggplot(df_avg, aes(x = as.numeric(year), y = value, color = subgroup)) +
   scale_color_manual(values = c("qc" = "#003DA5", "can" = "#D80621"),
                      labels = c("qc" = "Québec", "can" = "Reste du Canada")) +
   labs(x = "\nAnnées",
-       y = "Proportion des répondants qui s'identifient à une religion\n",
+       y = "Proportion des religieux\n",
        color = "Subgroup") +
   scale_x_continuous(breaks = unique(as.numeric(df_avg$year))) + 
   clessnize::theme_clean_light() +

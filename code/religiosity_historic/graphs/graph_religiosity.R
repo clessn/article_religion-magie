@@ -16,7 +16,7 @@ ggplot(df_avg_importance, aes(x = as.numeric(year), y = avg_importance, color = 
   scale_color_manual(values = c("qc" = "#003DA5", "can" = "#D80621"),
                     labels = c("qc" = "Québec", "can"= "Reste du Canada")) +
   labs(x = "\nAnnées",
-       y = "Religiosité\n",
+       y = "Niveau de religiosité\n",
        color = "Subgroup") +
   scale_x_continuous(breaks = unique(as.numeric(df_avg_importance$year))) + 
   clessnize::theme_clean_light() +
