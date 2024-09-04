@@ -8,8 +8,8 @@ df <- readRDS("_SharedFolder_article_religion-magie/Data/religiosity_historic/ma
 df_avg_importance <- df %>%
   filter(variable_id == "importance") %>%
   group_by(year, subgroup) %>%
-  summarise(avg_importance = sum(choice * value, na.rm = TRUE) / sum(value, na.rm = TRUE))
-
+  summarise(avg_importance = sum(choice * value, na.rm = TRUE) / sum(value, na.rm = TRUE)) %>% 
+  drop_na()
 # Create the plot
 ggplot(df_avg_importance, aes(x = as.numeric(year), y = avg_importance, color = subgroup)) +
   geom_line(linewidth = 1.2, alpha = 0.4) +
