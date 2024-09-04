@@ -36,6 +36,7 @@ attributes(raw_data$RELIGFLG)
 clean_data$religious_bin <- NA
 clean_data$religious_bin[raw_data$RELIGFLG == 1] <- 1
 clean_data$religious_bin[raw_data$RELIGFLG == 2] <- 0
+clean_data$religious_bin[raw_data$RELIGFLG == 6 | raw_data$RELIGFLG == 7 | raw_data$RELIGFLG == 8 | raw_data$RELIGFLG == 9] <- NA
 table(clean_data$religious_bin)
 
 ## Importance of religiosity ----------------------------------------------

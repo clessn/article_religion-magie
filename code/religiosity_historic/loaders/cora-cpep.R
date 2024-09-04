@@ -44,7 +44,8 @@ attributes(raw_data$q78)
 clean_data$religious_bin <- NA
 clean_data$religious_bin[raw_data$q78 == 9] <- 0
 clean_data$religious_bin[raw_data$q78 != 9] <- 1
-table(clean_data$religious_bin)
+clean_data$religious_bin[raw_data$q78 == 10] <- NA
+table(clean_data$religious_bin, useNA = "always")
 
 # Aggregate --------------------------------------------------------------
 

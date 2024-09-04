@@ -36,6 +36,7 @@ attributes(raw_data$RELIGFLG)
 clean_data$religious_bin <- NA
 clean_data$religious_bin[raw_data$RELIGFLG == 1] <- 1
 clean_data$religious_bin[raw_data$RELIGFLG == 2] <- 0
+clean_data$religious_bin[raw_data$RELIGFLG == 96 | raw_data$RELIGFLG == 97 | raw_data$RELIGFLG == 98 | raw_data$RELIGFLG == 99] <- NA
 table(clean_data$religious_bin)
 
 ## Importance ----------------------------------------------

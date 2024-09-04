@@ -34,8 +34,8 @@ attributes(raw_data$Q52_F1)
 clean_data$religious_bin <- NA
 clean_data$religious_bin[raw_data$Q52_F1 != 9] <- 1
 clean_data$religious_bin[raw_data$Q52_F1 == 9] <- 0
-clean_data$religious_bin[raw_data$Q52_F1 == 99] <- NA
-table(clean_data$religious_bin)
+clean_data$religious_bin[raw_data$Q52_F1 == 99 | raw_data$Q52_F1 == 98] <- NA
+table(clean_data$religious_bin, useNA = "always")
 
 ## Importance of religiosity ----------------------------------------------
 

@@ -29,9 +29,9 @@ table(clean_data$subgroup, useNA = "always")
 
 table(raw_data$cps21_religion, useNA = "always")
 clean_data$religious_bin <- NA
-clean_data$religious_bin[raw_data$cps21_religion == "Agnostic" | raw_data$cps21_religion == "None/ Don't have one/ Atheist" | raw_data$cps21_religion == "Other (please specify)"] <- 0
+clean_data$religious_bin[raw_data$cps21_religion == "Agnostic" | raw_data$cps21_religion == "None/ Don't have one/ Atheist"] <- 0
 clean_data$religious_bin[raw_data$cps21_religion != "Agnostic" & raw_data$cps21_religion != "None/ Don't have one/ Atheist" & raw_data$cps21_religion != "Other (please specify)"] <- 1
-clean_data$religious_bin[raw_data$cps21_religion == "Don't know/ Prefer not to answer"] <- NA
+clean_data$religious_bin[raw_data$cps21_religion == "Don't know/ Prefer not to answer" | raw_data$cps21_religion == "Other (please specify)"] <- NA
 table(clean_data$religious_bin, useNA = "always")
 
 ## Importance of religiosity ----------------------------------------------

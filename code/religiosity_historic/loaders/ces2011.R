@@ -32,9 +32,9 @@ table(raw_data$CPS11_80)
 attributes(raw_data$CPS11_80)
 clean_data$religious_bin <- NA
 clean_data$religious_bin[raw_data$CPS11_80 != 0] <- 1
-clean_data$religious_bin[raw_data$CPS11_80 == 0 | raw_data$CPS11_80 == 97] <- 0
-clean_data$religious_bin[raw_data$CPS11_80 == 99 | raw_data$CPS11_80 == 98] <- NA
-table(clean_data$religious_bin)
+clean_data$religious_bin[raw_data$CPS11_80 == 0] <- 0
+clean_data$religious_bin[raw_data$CPS11_80 == 99 | raw_data$CPS11_80 == 98 | raw_data$CPS11_80 == 97] <- NA
+table(clean_data$religious_bin, useNA = "always")
 
 ## Importance of religiosity ----------------------------------------------
 

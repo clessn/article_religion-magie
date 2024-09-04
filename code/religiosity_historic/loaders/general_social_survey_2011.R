@@ -59,7 +59,7 @@ attributes(raw_data$RELIG6C)
 clean_data$religious_bin <- NA
 clean_data$religious_bin[raw_data$RELIG6C != 1] <- 1
 clean_data$religious_bin[raw_data$RELIG6C == 1] <- 0
-clean_data$religious_bin[raw_data$RELIG6C == 8 | raw_data$RELIG6C == 9] <- NA
+clean_data$religious_bin[raw_data$RELIG6C == 8 | raw_data$RELIG6C == 9 | raw_data$RELIG6C == 5] <- NA
 clean_data$religious_bin[is.na(raw_data$RELIG6C)] <- NA
 table(clean_data$religious_bin)
 
@@ -92,3 +92,4 @@ output$survey_id <- survey_id
 
 ### save it in the warehouse
 saveRDS(output, paste0("_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/individual/", survey_id, ".rds"))
+

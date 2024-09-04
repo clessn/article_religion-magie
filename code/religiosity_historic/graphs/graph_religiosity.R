@@ -12,10 +12,11 @@ df_avg_importance <- df %>%
 
 # Create the plot
 ggplot(df_avg_importance, aes(x = as.numeric(year), y = avg_importance, color = subgroup)) +
-  geom_line(linewidth = 1.2, alpha = 0.7) + 
-  labs(title = "Average Importance by Year and Subgroup",
-       x = "Year",
-       y = "Average Importance",
+  geom_line(linewidth = 1.2, alpha = 0.4) +
+  scale_color_manual(values = c("qc" = "#003DA5", "can" = "#D80621"),
+                    labels = c("qc" = "Québec", "can"= "Reste du Canada")) +
+  labs(x = "\nAnnées",
+       y = "Importance de la religion\n",
        color = "Subgroup") +
   scale_x_continuous(breaks = unique(as.numeric(df_avg_importance$year))) + 
   clessnize::theme_clean_light() +

@@ -31,9 +31,9 @@ table(clean_data$subgroup)
 table(raw_data$Q98T, useNA = "always")
 attributes(raw_data$Q98T)
 clean_data$religious_bin <- NA
-clean_data$religious_bin[raw_data$Q98T == 23] <- 0
+clean_data$religious_bin[raw_data$Q98T == 23 | raw_data$Q98T == 21] <- 0
 clean_data$religious_bin[raw_data$Q98T != 23] <- 1
-clean_data$religious_bin[raw_data$Q98T == 24] <- NA
+clean_data$religious_bin[raw_data$Q98T == 24 | raw_data$Q98T == 22] <- NA
 table(clean_data$religious_bin)
 
 ## Importance of religiosity ----------------------------------------------

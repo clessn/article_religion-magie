@@ -32,8 +32,8 @@ attributes(raw_data$dc22_religion)
 table(raw_data$dc22_religion, useNA = "always")
 clean_data$religious_bin <- NA
 clean_data$religious_bin[raw_data$dc22_religion %in% 1:2] <- 0
-clean_data$religious_bin[raw_data$dc22_religion %in% 3:22] <- 1
-table(clean_data$religious_bin)
+clean_data$religious_bin[raw_data$dc22_religion %in% 3:21] <- 1
+table(clean_data$religious_bin, useNA = "always")
 
 ## Importance of religiosity ----------------------------------------------
 

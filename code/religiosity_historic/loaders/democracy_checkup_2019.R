@@ -31,7 +31,7 @@ attributes(raw_data$religion)
 table(raw_data$religion, useNA = "always")
 clean_data$religious_bin <- NA
 clean_data$religious_bin[raw_data$religion %in% 1:2] <- 0
-clean_data$religious_bin[raw_data$religion %in% 3:23] <- 1
+clean_data$religious_bin[raw_data$religion %in% 3:21] <- 1
 table(clean_data$religious_bin)
 
 ## Importance of religiosity ----------------------------------------------

@@ -31,8 +31,8 @@ attributes(raw_data$dc21_religion)
 table(raw_data$dc21_religion, useNA = "always")
 clean_data$religious_bin <- NA
 clean_data$religious_bin[raw_data$dc21_religion %in% 1:2] <- 0
-clean_data$religious_bin[raw_data$dc21_religion %in% 3:23] <- 1
-table(clean_data$religious_bin)
+clean_data$religious_bin[raw_data$dc21_religion %in% 3:21] <- 1
+table(clean_data$religious_bin, useNA = "always")
 
 ## Importance of religiosity ----------------------------------------------
 
@@ -73,3 +73,4 @@ survey_id <- "democracy_checkup_2021"
 
 ### save it in the warehouse
 saveRDS(output, paste0("_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/individual/", survey_id, ".rds"))
+

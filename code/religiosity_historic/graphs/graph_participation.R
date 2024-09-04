@@ -12,11 +12,14 @@ df_avg_participation <- df %>%
 
 # Create the plot
 ggplot(df_avg_participation, aes(x = as.numeric(year), y = avg_participation, color = subgroup)) +
-  geom_line(linewidth = 1.2, alpha = 0.7) + 
-  labs(title = "Average Participation by Year and Subgroup",
-       x = "Year",
-       y = "Average Participation",
+  geom_line(linewidth = 1.2, alpha = 0.4) + 
+  scale_color_manual(values = c("qc" = "#003DA5", "can" = "#D80621"),
+                    labels = c("qc" = "Québec", "can" = "Reste du Canada")) +
+  labs(x = "\nAnnées",
+       y = "Participation religieuse\n",
        color = "Subgroup") +
   scale_x_continuous(breaks = unique(as.numeric(df_avg_participation$year))) + 
-  theme_minimal() +
+  clessnize::theme_clean_light() +
   theme(plot.title = element_text(hjust = 0.5))
+
+ggsave("_SharedFolder_article_religion-magie/figures/graphs/participation.png", width = 10, height = 6, dpi = 300)
