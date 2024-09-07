@@ -2,7 +2,7 @@ df_years_ref <- readODS::read_ods("_SharedFolder_article_religion-magie/Data/rel
 
 df_years_ref$year[df_years_ref$year == "2011-2014"] <- "2014"
 
-df <- readRDS("_SharedFolder_article_religion-magie/Data/religiosity_historic/mart/data.rds")
+df <- readRDS("_SharedFolder_article_religion-magie/Data/religiosity_historic/warehouse/data_no_year.rds") 
 
 # Check for orphaned survey_ids in df
 orphaned_ids <- setdiff(df$survey_id, df_years_ref$survey_id)
@@ -37,6 +37,7 @@ df_final$variable_id[df$variable_id == "attend" |
                      df$variable_id == "participatation"] <- "participation"
 
 df_final <- df_final |> 
-  dplyr::filter(variable_id != "spirituality")
+  dplyr::filter(variable_id != "spirituality") |>
+  dplyr::filter(!is.na(subgroup))
 
 saveRDS(df, "_SharedFolder_article_religion-magie/Data/religiosity_historic/mart/data.rds")

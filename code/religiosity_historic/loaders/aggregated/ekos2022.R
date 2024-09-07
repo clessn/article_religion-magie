@@ -11,9 +11,6 @@ df_clean$choice[df$choice == "More than once"] <- 1
 df_clean$choice[df$choice == "Once"] <- 0.5
 df_clean$choice[df$choice == "Never"] <- 0
 df_clean$choice[df$choice == "No response/skip"] <- NA
-df_clean$choice[df$choice == "1"] <- 1
-df_clean$choice[df$choice == "0"] <- 1
-
 df_clean$choice <- as.numeric(df_clean$choice)
 
 df_clean$survey_id <- "ekos2022"
