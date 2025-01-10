@@ -1,7 +1,7 @@
 library(dplyr)
 library(ggplot2)
 
-data <- readRDS("_SharedFolder_article_religion-science/Data/data_clean/data_religion_magie.rds")
+data <- readRDS("_SharedFolder_article_religion-magie/Data/data_clean/data_religion_magie.rds")
 
 data_quorum <- data  %>% 
     filter(survey_name == "quorum_1")

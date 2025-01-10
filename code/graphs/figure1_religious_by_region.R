@@ -8,7 +8,7 @@ library(dplyr)
 
 # Data --------------------------------------------------------------------
 
-data <- readRDS("_SharedFolder_article_religion-science/Data/data_clean/data_religion_magie.rds") %>% 
+data <- readRDS("_SharedFolder_article_religion-magie/Data/data_clean/data_religion_magie.rds") %>% 
   mutate(region = ifelse(ses_province == "qc", "qc", "roc"))
 
 str(data)
@@ -31,16 +31,18 @@ graph_data <- data %>%
          conf_high = prop + margin_error) %>% 
   filter(religion_bin == 1)
 
+
 ggplot(graph_data, aes(x = region, y = prop, fill = religion_bin)) +
   geom_col(fill = "grey30") +
   geom_linerange(aes(ymin = conf_low, ymax = conf_high),
                  linewidth = 1, color = "black") +
   clessnize::theme_clean_light(base_size = 15) +
-  ylab("Proportion des répondants\nattachés à une religion (%)\n") +
+  ylab("Proportion of Respondents Identifying as \nMembers of a Religious Community (%)") +
   xlab("") +
-  labs(caption = "Les barres d'erreur représentent les intervalles de confiance à 95%.") +
-  scale_x_discrete(labels = c("Québec", "Reste du Canada"),
+  labs(caption = "Error bars represent 95% confidence intervals.") +
+  scale_x_discrete(labels = c("Quebec", "Rest of Canada"),
                    breaks = c("qc", "roc"))
 
-ggsave("_SharedFolder_article_religion-science/figures/figure1_religious_by_region.png",
+
+ggsave("_SharedFolder_article_religion-magie/figures/figure1_religious_by_region.png",
        width = 8, height = 6, dpi = 300)

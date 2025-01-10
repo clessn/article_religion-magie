@@ -8,7 +8,7 @@ library(dplyr)
 
 # Data --------------------------------------------------------------------
 
-data <- readRDS("_SharedFolder_article_religion-science/Data/data_clean/data_religion_magie.rds") %>% 
+data <- readRDS("_SharedFolder_article_religion-magie/Data/data_clean/data_religion_magie.rds") %>% 
   mutate(region = ifelse(ses_province == "qc", "qc", "roc"))
 
 str(data)
@@ -38,12 +38,12 @@ ggplot(graph_data, aes(x = religion_attached_to_church_religious)) +
                bw = 0.1) +
   clessnize::theme_clean_light(base_size = 15) +
   scale_fill_manual(values = c("#003DA5", "#D80621"),
-                    labels = c("Québec", "Reste du Canada")) +
-  ylab("Densité\n") +
-  xlab("\nAttachement à sa religion") +
+                    labels = c("Quebec", "Rest of Canada")) +
+  ylab("Density\n") +
+  xlab("\nAttachment to Religion") +
   scale_x_continuous(breaks = c(0.2, 0.8),
-                     labels = c("Moins attaché", "Plus attaché")) +
-  labs(caption = "Parmi les répondants qui sont attachés à une religion.")
-
-ggsave("_SharedFolder_article_religion-science/figures/figure2_religiosity_by_region.png",
+                     labels = c("Less attached", "More attached")) +
+  labs(caption = "Among respondents identifying as members of a religious community") 
+  #clessnverse::theme_clean_light()
+ggsave("_SharedFolder_article_religion-magie/figures/figure2_religiosity_by_region.png",
        width = 9, height = 6, dpi = 300)
