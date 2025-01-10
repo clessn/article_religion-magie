@@ -21,7 +21,9 @@ ggplot(df_avg, aes(x = as.numeric(year), y = value, color = subgroup)) +
        y = "Proportion des religieux\n",
        color = "Subgroup") +
   scale_x_continuous(breaks = unique(as.numeric(df_avg$year))) + 
+  scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, by = 0.1)) +  # Y-axis scaling
   clessnize::theme_clean_light() +
   theme(plot.title = element_text(hjust = 0.5))
+
 ggsave("_SharedFolder_article_religion-magie/figures/graphs/religious_bin.png", width = 10, height = 6, dpi = 300)
 

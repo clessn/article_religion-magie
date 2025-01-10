@@ -14,11 +14,12 @@ df_avg_participation <- df %>%
 ggplot(df_avg_participation, aes(x = as.numeric(year), y = avg_participation, color = subgroup)) +
   geom_line(linewidth = 1.2, alpha = 0.4) + 
   scale_color_manual(values = c("qc" = "#003DA5", "can" = "#D80621"),
-                    labels = c("qc" = "Québec", "can" = "Reste du Canada")) +
+                     labels = c("qc" = "Québec", "can" = "Reste du Canada")) +
   labs(x = "\nAnnées",
        y = "Participation religieuse\n",
        color = "Subgroup") +
   scale_x_continuous(breaks = unique(as.numeric(df_avg_participation$year))) + 
+  scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, by = 0.1)) +  # Y-axis scaling
   clessnize::theme_clean_light() +
   theme(plot.title = element_text(hjust = 0.5))
 
