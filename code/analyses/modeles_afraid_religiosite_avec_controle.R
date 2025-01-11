@@ -1,16 +1,18 @@
 library(dplyr)
 library(ggplot2)
+library(gt)
+library(webshot2)
 
 data <- readRDS("_SharedFolder_article_religion-magie/Data/data_clean/data_religion_magie.rds")
 
 data_quorum <- data  %>% 
-    filter(survey_name == "quorum_1")
+  filter(survey_name == "quorum_1")
 
 data_quorum_roc <- data_quorum %>% 
-    filter(ses_province != "qc")
+  filter(ses_province != "qc")
 
 data_quorum_qc <- data_quorum %>%
-    filter(ses_province == "qc")
+  filter(ses_province == "qc")
 
 # Population proportions
 pop_quebec <- 0.2298
@@ -39,41 +41,42 @@ data_quorum$weight <- ifelse(data_quorum$ses_province == "qc", weight_quebec, we
 survey_design <- survey::svydesign(ids = ~1, data = data_quorum, weights = ~weight)
 
 models_list <- list(
-  'Seulement les répondants religieux' = list(
+  'Only religious respondents' = list(
     "Canada" = lm(religion_attached_to_church_religious ~ covid_afraid_of_dying + ses_female + ses_age_group + ses_marital_status + ses_born_canada + ses_education + ses_sexual_orientation + ses_occupation + ses_ethnicity, data = data_quorum),
-    "Canada (Pondéré)" = survey::svyglm(religion_attached_to_church_religious ~ covid_afraid_of_dying + ses_female + ses_age_group + ses_marital_status + ses_born_canada + ses_education + ses_sexual_orientation + ses_occupation + ses_ethnicity, design = survey_design),
-    "Québec" = lm(religion_attached_to_church_religious ~ covid_afraid_of_dying + ses_female + ses_age_group + ses_marital_status + ses_born_canada + ses_education + ses_sexual_orientation + ses_occupation + ses_ethnicity, data = data_quorum_qc),
-    "ROC" = lm(religion_attached_to_church_religious ~ covid_afraid_of_dying + ses_female + ses_age_group + ses_marital_status + ses_born_canada + ses_education + ses_sexual_orientation + ses_occupation + ses_ethnicity, data = data_quorum_roc)
+    "Canada (Weighted)" = survey::svyglm(religion_attached_to_church_religious ~ covid_afraid_of_dying + ses_female + ses_age_group + ses_marital_status + ses_born_canada + ses_education + ses_sexual_orientation + ses_occupation + ses_ethnicity, design = survey_design),
+    "Quebec" = lm(religion_attached_to_church_religious ~ covid_afraid_of_dying + ses_female + ses_age_group + ses_marital_status + ses_born_canada + ses_education + ses_sexual_orientation + ses_occupation + ses_ethnicity, data = data_quorum_qc),
+    "Rest of Canada" = lm(religion_attached_to_church_religious ~ covid_afraid_of_dying + ses_female + ses_age_group + ses_marital_status + ses_born_canada + ses_education + ses_sexual_orientation + ses_occupation + ses_ethnicity, data = data_quorum_roc)
   ),
-  'Tous les répondants' = list(
+  'All respondents' = list(
     "Canada" = lm(religion_attached_to_church_all ~ covid_afraid_of_dying + ses_female + ses_age_group + ses_marital_status + ses_born_canada + ses_education + ses_sexual_orientation + ses_occupation + ses_ethnicity, data = data_quorum),
-    "Canada (Pondéré)" = survey::svyglm(religion_attached_to_church_all ~ covid_afraid_of_dying + ses_female + ses_age_group + ses_marital_status + ses_born_canada + ses_education + ses_sexual_orientation + ses_occupation + ses_ethnicity, design = survey_design),
-    "Québec" = lm(religion_attached_to_church_all ~ covid_afraid_of_dying + ses_female + ses_age_group + ses_marital_status + ses_born_canada + ses_education + ses_sexual_orientation + ses_occupation + ses_ethnicity, data = data_quorum_qc),
-    "ROC" = lm(religion_attached_to_church_all ~ covid_afraid_of_dying + ses_female + ses_age_group + ses_marital_status + ses_born_canada + ses_education + ses_sexual_orientation + ses_occupation + ses_ethnicity, data = data_quorum_roc)
+    "Canada (Weighted)" = survey::svyglm(religion_attached_to_church_all ~ covid_afraid_of_dying + ses_female + ses_age_group + ses_marital_status + ses_born_canada + ses_education + ses_sexual_orientation + ses_occupation + ses_ethnicity, design = survey_design),
+    "Quebec" = lm(religion_attached_to_church_all ~ covid_afraid_of_dying + ses_female + ses_age_group + ses_marital_status + ses_born_canada + ses_education + ses_sexual_orientation + ses_occupation + ses_ethnicity, data = data_quorum_qc),
+    "Rest of Canada" = lm(religion_attached_to_church_all ~ covid_afraid_of_dying + ses_female + ses_age_group + ses_marital_status + ses_born_canada + ses_education + ses_sexual_orientation + ses_occupation + ses_ethnicity, data = data_quorum_roc)
   )
 )
 
-cm <- c("covid_afraid_of_dying" = "Peur de la mort")
+# Translation of "Peur de la mort" into English
+cm <- c("covid_afraid_of_dying" = "Fear of death")
 
 gm <- c('r.squared', 'nobs')
 
 # Model summary code
 modelsummary::modelsummary(models_list,
-             output = "code/analyses/reg_table_afraid_avec_controle.tex", 
-             stars = TRUE,
-             coef_map = cm, 
-             gof_map = gm,
-             shape = "rbind",
-             title = "Relation entre la peur de la mort durant la COVID-19 et la religiosité",
-             notes = "Notes: Les contrôles utilisés dans les modèles sont les suivants: sexe, groupe d'âge, état civil, lieu de naissance, éducation, orientation sexuelle, occupation, et ethnie. Les données de pondération proviennent du recensement.")
+                           output = "code/analyses/reg_table_afraid_avec_controle.png", 
+                           stars = TRUE,
+                           coef_map = cm, 
+                           gof_map = gm,
+                           shape = "rbind",
+                           title = "Relationship between fear of death during COVID-19 and religiosity",
+                           notes = "Notes: The controls used in these models are as follows: sex, age group, marital status, place of birth, education, sexual orientation, occupation, and ethnicity. The weighting data come from the census.")
+
 
 # Model plot --------------------------------------------------------------
 
 ### create a list containing each model
-
 models_list_plot <- as.list(unlist(models_list, recursive = FALSE))
 
-### use modelplot without drawing the plot. (draw = FALSE)
+### use modelplot without drawing the plot (draw = FALSE).
 modelsummary::modelplot(models_list_plot,
                         draw = FALSE) %>% 
   ### create variables for facet_wrap
@@ -84,13 +87,20 @@ modelsummary::modelplot(models_list_plot,
   geom_vline(xintercept = 0, linetype = "dashed", color = "grey75") +
   facet_wrap(~respondents) +
   geom_point() +
+  clessnize::theme_clean_light(base_size = 15) +
   geom_linerange(aes(xmin = conf.low, xmax = conf.high)) +
-  labs(caption = "Notes:\n   Les lignes autour des points présentent les intervalles de confiance à 95%.\n   Les contrôles utilisés dans les modèles sont les suivants: sexe, groupe d'âge, état civil, lieu de naissance,\n    éducation, orientation sexuelle, occupation, et ethnie.\n   Les données de pondération proviennent du recensement.",
-       x = "<br>Coefficient de régression linéaire<br>Peur de la mort &rarr; Religiosité<br>") +
-  clessnize::theme_clean_light() +
-  theme(axis.title.y = element_blank(),
-        plot.caption.position = "plot",
-        axis.title.x = ggtext::element_markdown())
+  labs(
+    caption = "Notes:\n   The lines around the points represent the 95% confidence intervals.\n   The controls used in these models are as follows: sex, age group, marital status, place of birth,\n    education, sexual orientation, occupation, and ethnicity.\n   The weighting data comes from the census.",
+    x = "<br>Linear regression coefficient"
+  ) +
+  theme(
+    axis.title.y = element_blank(),
+    plot.caption.position = "plot",
+    axis.title.x = ggtext::element_markdown()
+  )
 
-ggsave("_SharedFolder_article_religion-science/figures/figure5_model.png",
+ggsave("_SharedFolder_article_religion-magie/figures/figure5_model.png",
        width = 6.5, height = 4, dpi = 500)
+
+
+

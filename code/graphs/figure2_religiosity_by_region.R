@@ -46,4 +46,4 @@ ggplot(graph_data, aes(x = religion_attached_to_church_religious)) +
   labs(caption = "Among respondents identifying as members of a religious community") 
   #clessnverse::theme_clean_light()
 ggsave("_SharedFolder_article_religion-magie/figures/figure2_religiosity_by_region.png",
-       width = 9, height = 6, dpi = 300)
+       width = 10, height = 6, dpi = 300)
