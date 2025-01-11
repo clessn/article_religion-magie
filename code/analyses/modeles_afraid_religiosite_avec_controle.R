@@ -91,7 +91,7 @@ modelsummary::modelplot(models_list_plot,
   geom_linerange(aes(xmin = conf.low, xmax = conf.high)) +
   labs(
     caption = "Notes:\n   The lines around the points represent the 95% confidence intervals.\n   The controls used in these models are as follows: sex, age group, marital status, place of birth,\n    education, sexual orientation, occupation, and ethnicity.\n   The weighting data comes from the census.",
-    x = "<br>Linear regression coefficient"
+    x = "<br>Coefficients"
   ) +
   theme(
     axis.title.y = element_blank(),
