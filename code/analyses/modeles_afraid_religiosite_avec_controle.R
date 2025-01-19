@@ -62,7 +62,7 @@ gm <- c('r.squared', 'nobs')
 
 # Model summary code
 modelsummary::modelsummary(models_list,
-                           output = "code/analyses/reg_table_afraid_avec_controle.png", 
+                           output = "code/analyses/reg_table_afraid_avec_controle.tex", 
                            stars = TRUE,
                            coef_map = cm, 
                            gof_map = gm,
@@ -101,6 +101,7 @@ modelsummary::modelplot(models_list_plot,
 
 ggsave("_SharedFolder_article_religion-magie/figures/figure5_model.png",
        width = 6.5, height = 4, dpi = 500)
+
 
 
 
