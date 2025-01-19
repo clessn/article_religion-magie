@@ -64,5 +64,13 @@ modelsummary::modelsummary(models_list,
                            title = "Relationship between fear of death during COVID-19 and religiosity",
                            notes = "Note: The controls used in these models are as follows: sex, age group, marital status, place of birth, education, sexual orientation, occupation, and ethnicity.")
 
+<<<<<<< HEAD
+
+=======
 # Convert LaTeX table to PNG
+<<<<<<< HEAD
 reg_table_path <- latex_table_to_png("code/analyses/reg_table_afraid_avec_controle.tex", output_path = "_SharedFolder_article_religion-magie/Data/tables/reg_table.png", is_file = TRUE, dpi = 600)
+=======
+reg_table_path <- latex_table_to_png("code/analyses/reg_table_afraid_avec_controle.tex", "table.png", is_file = TRUE, dpi = 600)
+>>>>>>> 6160c9e3acd4a497cfc730a30aab7ab696d0250c
+>>>>>>> fd6c3b174f3837b287951ffc289df07df404ae1e
