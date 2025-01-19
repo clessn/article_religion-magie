@@ -10,12 +10,33 @@ data <- readRDS("_SharedFolder_article_religion-magie/Data/data_clean/data_relig
 data_quorum <- data  %>% 
   filter(survey_name == "quorum_1")
 
+# Create Quebec and ROC datasets (using original filter, no weight modification needed)
 data_quorum_roc <- data_quorum %>% 
   filter(ses_province != "qc")
-
 data_quorum_qc <- data_quorum %>%
   filter(ses_province == "qc")
 
+# Population proportions
+pop_quebec <- 0.2298
+pop_roc <- 1 - pop_quebec
+
+# Sample sizes
+sample_quebec <- nrow(data_quorum %>% filter(ses_province == "qc"))
+sample_roc <- nrow(data_quorum %>% filter(ses_province != "qc"))
+total_sample <- sample_quebec + sample_roc
+
+# Calculate province weights
+weight_quebec <- (pop_quebec * total_sample) / sample_quebec
+weight_roc <- (pop_roc * total_sample) / sample_roc
+
+# Modify weights only for data_quorum
+data_quorum <- data_quorum %>%
+  mutate(
+    # Calculate provincial weight factor
+    province_weight = ifelse(ses_province == "qc", weight_quebec, weight_roc),
+    # Combine weights by multiplication and rescale
+    weight = weight * province_weight * (n() / sum(weight * province_weight))
+  )
 
 # Convert religion_bin to binary numeric variable
 data_quorum$religion_bin <- as.numeric(data_quorum$religion_bin)
