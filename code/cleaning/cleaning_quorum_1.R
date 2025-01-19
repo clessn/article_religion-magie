@@ -1,5 +1,6 @@
 library(dplyr)
 
+df <- readRDS("_SharedFolder_article_religion-magie/Data/quorum_1/quorum_1_clean.rds")
 data <- haven::read_sav("_SharedFolder_article_religion-magie/Data/quorum_1/ULAQUORUM.Sav", encoding = "latin1")
 
 codebook <- sondr::sav_to_codebook(data)
@@ -300,44 +301,10 @@ data_clean$during_covid <- 1
 
 data_clean$survey_name <- "quorum_1"
 
+data_clean$weight <- NA
+data_clean$weight <- df$weight
+
 # Save data
 
 saveRDS(data_clean, "_SharedFolder_article_religion-magie/Data/data_clean/data_quorum_1.rds")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
