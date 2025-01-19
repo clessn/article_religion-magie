@@ -65,4 +65,4 @@ modelsummary::modelsummary(models_list,
                            notes = "Note: The controls used in these models are as follows: sex, age group, marital status, place of birth, education, sexual orientation, occupation, and ethnicity.")
 
 # Convert LaTeX table to PNG
-reg_table_path <- latex_table_to_png("code/analyses/reg_table_afraid_avec_controle.tex", "table.png", is_file = TRUE, dpi = 600)
+reg_table_path <- latex_table_to_png("code/analyses/reg_table_afraid_avec_controle.tex", output_path = "_SharedFolder_article_religion-magie/Data/tables/reg_table.png", is_file = TRUE, dpi = 600)
