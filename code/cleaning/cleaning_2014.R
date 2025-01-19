@@ -221,6 +221,9 @@ data_clean$during_covid <- 0
 
 data_clean$survey_name <- "sondage_2014"
 
+# create an empty weights variable
+data_clean$weight <- NA
+
 ## Save ------------------------------------------------------------------------
 
 saveRDS(data_clean, "_SharedFolder_article_religion-magie/Data/data_clean/data_2014.rds")

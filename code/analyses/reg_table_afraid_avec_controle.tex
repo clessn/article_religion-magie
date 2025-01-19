@@ -2,26 +2,33 @@
 \centering
 \begin{talltblr}[         %% tabularray outer open
 caption={Relationship between fear of death during COVID-19 and religiosity},
+<<<<<<< HEAD
 note{}={+ p \num{< 0.1}, * p \num{< 0.05}, ** p \num{< 0.01}, *** p \num{< 0.001}},
 note{ }={Notes: The controls used in these models are as follows: sex, age group, marital status, place of birth, education, sexual orientation, occupation, and ethnicity. The weighting data come from the census.},
+=======
+note{}={+ p < 0.1, * p < 0.05, ** p < 0.01, *** p < 0.001},
+note{ }={Note: The controls used in these models are as follows: sex, age group, marital status, place of birth, education, sexual orientation, occupation, and ethnicity.},
+>>>>>>> 6160c9e3acd4a497cfc730a30aab7ab696d0250c
 ]                     %% tabularray outer close
 {                     %% tabularray inner open
-colspec={Q[]Q[]Q[]Q[]Q[]},
-cell{2}{1}={c=5}{},cell{7}{1}={c=5}{},
-column{2,3,4,5}={}{halign=c,},
-cell{1}{1}={}{halign=l,},
-cell{2}{1}={}{halign=l,},
-cell{7}{1}={}{halign=l,},
-cell{3}{1}={}{halign=l, preto={\hspace{1em}},},
-cell{4}{1}={}{halign=l, preto={\hspace{1em}},},
-cell{5}{1}={}{halign=l, preto={\hspace{1em}},},
-cell{6}{1}={}{halign=l, preto={\hspace{1em}},},
-cell{8}{1}={}{halign=l, preto={\hspace{1em}},},
-cell{9}{1}={}{halign=l, preto={\hspace{1em}},},
-cell{10}{1}={}{halign=l, preto={\hspace{1em}},},
-cell{11}{1}={}{halign=l, preto={\hspace{1em}},},
+colspec={Q[]Q[]Q[]Q[]},
+cell{2}{1}={c=4}{},cell{7}{1}={c=4}{},
+cell{3}{1}={preto={\hspace{1em}}},
+cell{4}{1}={preto={\hspace{1em}}},
+cell{5}{1}={preto={\hspace{1em}}},
+cell{6}{1}={preto={\hspace{1em}}},
+cell{8}{1}={preto={\hspace{1em}}},
+cell{9}{1}={preto={\hspace{1em}}},
+cell{10}{1}={preto={\hspace{1em}}},
+cell{11}{1}={preto={\hspace{1em}}},
+cell{12}{1}={preto={\hspace{1em}}},
+column{1}={halign=l,},
+column{2}={halign=c,},
+column{3}={halign=c,},
+column{4}={halign=c,},
 }                     %% tabularray inner close
 \toprule
+<<<<<<< HEAD
 & Canada & Canada (Weighted) & Quebec & Rest of Canada \\ \midrule %% TinyTableHeader
 Only religious respondents &&&& \\
 Fear of death & -0.163*** & -0.190*** & -0.102+ & -0.204*** \\
@@ -33,6 +40,19 @@ Fear of death & -0.022    & -0.061*   & 0.023   & -0.087**  \\
 & (0.018)   & (0.027)   & (0.020) & (0.034)   \\
 R2            & 0.065     & 0.076     & 0.080   & 0.087     \\
 Num.Obs.      & 2316      & 2316      & 1412    & 904       \\
+=======
+& Canada & Quebec & Rest of Canada \\ \midrule %% TinyTableHeader
+\textbf{Only religious respondents} &&& \\
+Fear of death & -0.195*** & -0.103+ & -0.210*** \\
+& (0.043)   & (0.054) & (0.049)   \\
+R2            & 0.167     & 0.164   & 0.198     \\
+Num.Obs.      & 534       & 261     & 273       \\
+\textbf{All respondents} &&& \\
+Fear of death & -0.065*   & 0.022   & -0.091*   \\
+& (0.029)   & (0.022) & (0.037)   \\
+R2            & 0.071     & 0.081   & 0.079     \\
+Num.Obs.      & 2316      & 1412    & 904       \\
+>>>>>>> 6160c9e3acd4a497cfc730a30aab7ab696d0250c
 \bottomrule
 \end{talltblr}
 \end{table}
