@@ -195,9 +195,9 @@ sum(table(data_clean$how_many_immigrants))
 
 # Q62
 
-attributes(data_raw$Q62)
-attributes(data_raw$Q61)
-table(data_raw$Q62)
+attributes(data_raw$Q62) # "How strongly are you attached to this church, religious denomination or religious community?"
+attributes(data_raw$Q61) # "Do you consider yourself a member of a church, denomination or religious community?"
+table(data_raw$Q62, useNA = "always")
 sum(table(data_raw$Q62))
 data_clean$religion_attached_to_church_all <- NA
 data_clean$religion_attached_to_church_all <- (data_raw$Q62 - 1) / 4
@@ -209,7 +209,7 @@ sum(table(data_clean$religion_attached_to_church_all))
 
 data_clean$religion_attached_to_church_religious <- NA
 data_clean$religion_attached_to_church_religious <- (data_raw$Q62 - 1) / 4
-table(data_clean$religion_attached_to_church_religious)
+table(data_clean$religion_attached_to_church_religious, useNA = "always")
 sum(table(data_clean$religion_attached_to_church_religious))
 
 ## --------------------------- Religious bin -----------------------------------
@@ -217,7 +217,7 @@ sum(table(data_clean$religion_attached_to_church_religious))
 data_clean$religion_bin <- NA
 data_clean$religion_bin[data_raw$Q61 == 2] <- 0
 data_clean$religion_bin[data_raw$Q61 !=2] <- 1
-table(data_clean$religion_bin)
+table(data_clean$religion_bin, useNA = "always")
 sum(table(data_clean$religion_bin))
 
 ## --------------------------- ethnicity ---------------------------------------
