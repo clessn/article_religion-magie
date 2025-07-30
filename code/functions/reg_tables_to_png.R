@@ -1,13 +1,11 @@
 latex_table_to_png <- function(input, output_path = "output.png", is_file = FALSE, dpi = 300) {
   # Ensure the function exits gracefully on error
   on.exit({
-    # List of all possible temporary files that might be created
     temp_files <- c(
       "table.tex", "table.pdf", "table.aux", "table.log",
       "table.out", "table.xdv", "table.synctex.gz",
-      "table-1.png"  # temporary PNG file created by pdftoppm
+      "table-1.png", "table.png"
     )
-    # Remove any temporary files that exist
     unlink(temp_files[file.exists(temp_files)])
   })
 
@@ -16,20 +14,13 @@ latex_table_to_png <- function(input, output_path = "output.png", is_file = FALS
     stop("This function requires a Linux operating system")
   }
 
-  # Check for XeLaTeX
+  # Check for required tools
   if (system("which xelatex", ignore.stdout = TRUE) != 0) {
-    stop(
-      "xelatex not found. Please install TeX Live using:\n",
-      "sudo apt-get install texlive-xetex texlive-latex-extra texlive-science"
-    )
+    stop("xelatex not found. Please install TeX Live")
   }
 
-  # Check for pdftoppm (part of poppler-utils)
   if (system("which pdftoppm", ignore.stdout = TRUE) != 0) {
-    stop(
-      "pdftoppm not found. Please install poppler-utils using:\n",
-      "sudo apt-get install poppler-utils"
-    )
+    stop("pdftoppm not found. Please install poppler-utils")
   }
 
   # Validate DPI
@@ -82,7 +73,6 @@ latex_table_to_png <- function(input, output_path = "output.png", is_file = FALS
   # Set file paths
   tex_file <- "table.tex"
   pdf_file <- "table.pdf"
-  temp_png <- "table" # pdftoppm will add -1.png to this
 
   # Ensure output directory exists
   output_dir <- dirname(output_path)
@@ -99,74 +89,103 @@ latex_table_to_png <- function(input, output_path = "output.png", is_file = FALS
     stop("Failed to write LaTeX file: ", e$message)
   })
 
-  # Compile with XeLaTeX (two passes to ensure references are correct)
+  # Compile with XeLaTeX (two passes)
   for (i in 1:2) {
-    compile_result <- system2(
-      "xelatex",
-      args = c(
-        "-interaction=nonstopmode",
-        "-no-pdf",
-        tex_file
-      ),
-      stdout = TRUE,
-      stderr = TRUE
-    )
-    
-    if (length(compile_result) > 0) {
-      # Save compilation log for debugging
-      writeLines(compile_result, "xelatex_compile.log")
-    }
+    system2("xelatex", 
+            args = c("-interaction=nonstopmode", "-no-pdf", tex_file),
+            stdout = NULL, stderr = NULL)
     
     # Check if XDV was created
-    if (!file.exists(gsub("\\.tex$", ".xdv", tex_file))) {
-      stop("XeLaTeX compilation failed. Check xelatex_compile.log for details.")
+    if (!file.exists("table.xdv")) {
+      stop("XeLaTeX compilation failed - no XDV file created")
     }
   }
 
   # Convert XDV to PDF
-  system2(
-    "xdvipdfmx",
-    args = gsub("\\.tex$", ".xdv", tex_file)
-  )
-
-  # Convert PDF to PNG using pdftoppm
-  convert_result <- system2(
-    "pdftoppm",
-    args = c(
-      "-png",            # Output format
-      "-singlefile",     # Output single file
-      sprintf("-r %d", dpi),  # Resolution
-      pdf_file,          # Input file
-      temp_png          # Output file prefix
-    ),
-    stdout = TRUE,
-    stderr = TRUE
-  )
-
-  # Check if conversion was successful
-  temp_png_file <- "table-1.png"
-  if (length(convert_result) > 0 || !file.exists(temp_png_file)) {
-    stop(
-      "PDF to PNG conversion failed. Error message:\n",
-      paste(convert_result, collapse = "\n")
-    )
+  system2("xdvipdfmx", args = "table.xdv", stdout = NULL, stderr = NULL)
+  
+  # Verify PDF was created
+  if (!file.exists(pdf_file)) {
+    stop("PDF file was not created")
   }
 
-  # Move the temporary PNG to the desired location
-  file.rename(temp_png_file, output_path)
+  # Try multiple approaches for PDF to PNG conversion
+  png_created <- FALSE
+  
+  # Approach 1: pdftoppm with -singlefile
+  tryCatch({
+    system2("pdftoppm", 
+            args = c("-png", "-singlefile", sprintf("-r %d", dpi), pdf_file, "table"),
+            stdout = NULL, stderr = NULL)
+    
+    # Check for various possible output names
+    possible_files <- c("table.png", "table-1.png", "table-01.png")
+    existing_files <- possible_files[file.exists(possible_files)]
+    
+    if (length(existing_files) > 0) {
+      success <- file.rename(existing_files[1], output_path)
+      if (!success) {
+        success <- file.copy(existing_files[1], output_path, overwrite = TRUE)
+        if (success) file.remove(existing_files[1])
+      }
+      png_created <- success
+    }
+  }, error = function(e) {
+    # Continue to next approach
+  })
+  
+  # Approach 2: pdftoppm without -singlefile (if first approach failed)
+  if (!png_created) {
+    tryCatch({
+      system2("pdftoppm", 
+              args = c("-png", sprintf("-r %d", dpi), pdf_file, "table"),
+              stdout = NULL, stderr = NULL)
+      
+      # Look for any PNG files created
+      png_files <- list.files(pattern = "^table.*\\.png$")
+      if (length(png_files) > 0) {
+        success <- file.rename(png_files[1], output_path)
+        if (!success) {
+          success <- file.copy(png_files[1], output_path, overwrite = TRUE)
+          if (success) file.remove(png_files[1])
+        }
+        png_created <- success
+      }
+    }, error = function(e) {
+      # Continue to next approach
+    })
+  }
+  
+  # Approach 3: Use convert from ImageMagick (if available)
+  if (!png_created && system("which convert", ignore.stdout = TRUE) == 0) {
+    tryCatch({
+      system2("convert", 
+              args = c("-density", as.character(dpi), pdf_file, output_path),
+              stdout = NULL, stderr = NULL)
+      png_created <- file.exists(output_path)
+    }, error = function(e) {
+      # Continue
+    })
+  }
+  
+  # Approach 4: Use gs (ghostscript) if available
+  if (!png_created && system("which gs", ignore.stdout = TRUE) == 0) {
+    tryCatch({
+      system2("gs", 
+              args = c("-dNOPAUSE", "-dBATCH", "-sDEVICE=png16m", 
+                      sprintf("-r%d", dpi), sprintf("-sOutputFile=%s", output_path), 
+                      pdf_file),
+              stdout = NULL, stderr = NULL)
+      png_created <- file.exists(output_path)
+    }, error = function(e) {
+      # Continue
+    })
+  }
 
-  # Verify the PNG file exists and has content
-  if (!file.exists(output_path) || file.size(output_path) == 0) {
-    stop("PNG file was not created or is empty")
+  # Final check
+  if (!png_created || !file.exists(output_path) || file.size(output_path) == 0) {
+    stop("Failed to create PNG file. Try installing: sudo apt-get install poppler-utils imagemagick ghostscript")
   }
 
   return(normalizePath(output_path))
 }
-
-# Example usage with direct LaTeX code:
-# table_code <- "\\begin{tblr}{colspec={ccc}}
-#   A & B & C \\\\
-#   1 & 2 & 3 \\\\
-#   4 & 5 & 6
-# \\end{tblr}"
-# png_path <- latex_table_to_png(table_code, "my_table.png", is_file = FALSE, dpi = 300)
