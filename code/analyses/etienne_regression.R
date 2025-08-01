@@ -89,7 +89,6 @@ modelsummary::modelsummary(models_list,
                           coef_map = cm, 
                           gof_map = gm,
                           shape = "rbind",
-                          title = "Relationship between religiosity and fear of death during COVID-19",
                           notes = "Note: The controls used in these models are as follows: sex, age group, marital status, place of birth, education, sexual orientation, occupation, and ethnicity.")
 
 # Puis conversion
@@ -138,8 +137,7 @@ modelsummary::modelsummary(models_interaction_only,
                           stars = TRUE,
                           coef_map = cm_interaction, 
                           gof_map = gm,
-                          title = "Testing regional differences in religiosity effects on COVID-19 death fear",
-                          notes = "Note: Models include the same controls as in Table [X]. The interaction term tests whether the effect of religious attachment differs significantly between Quebec and Rest of Canada.")
+                          notes = "Note: Models include the same controls as in Table 1. The interaction term tests whether the effect of religious attachment differs significantly between Quebec and Rest of Canada.")
 
 # Conversion en PNG
 interaction_table_path <- latex_table_to_png(
